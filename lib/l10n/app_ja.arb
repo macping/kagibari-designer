@@ -1,0 +1,34 @@
+{
+  "@@locale": "ja",
+  "appTitle": "編み図デザイナー",
+  "settingsTooltip": "設定",
+
+  "inputError": "入力値を確認してください（0や負の値は計算できません）",
+  "enterValues": "値を入力してください",
+
+  "settingsTitle": "設定",
+  "proActive": "Pro版 利用中",
+  "proActiveSubtitle": "すべての機能が解放されています",
+  "upgradeTitle": "Pro版にアップグレード",
+  "upgradeSubtitle": "TODO: Pro特典の一行説明（買い切り）",
+  "restorePurchase": "購入を復元",
+  "restoreSubtitle": "機種変更・再インストールした場合",
+  "restoreStarted": "復元処理を開始しました",
+  "restoreFailed": "復元できませんでした。ストア接続をご確認ください",
+  "disclaimerTitle": "免責事項",
+  "disclaimerBody": "TODO: 本アプリの計算結果は参考値です。（アプリ固有の免責に差し替え）",
+  "languageTitle": "言語",
+  "languageSystem": "システムに従う",
+
+  "paywallTitle": "Pro版にアップグレード",
+  "paywallSubtitle": "買い切り {price} ・ サブスクではありません",
+  "@paywallSubtitle": { "placeholders": { "price": { "type": "String" } } },
+  "paywallBenefit1": "TODO: 特典1",
+  "paywallBenefit2": "TODO: 特典2",
+  "paywallBenefit3": "TODO: 特典3",
+  "paywallBenefit4": "今後広告が追加されても非表示",
+  "buyButton": "{price} で購入",
+  "@buyButton": { "placeholders": { "price": { "type": "String" } } },
+  "storeUnavailable": "ストアに接続できませんでした",
+  "purchaseError": "購入処理でエラーが発生しました"
+}

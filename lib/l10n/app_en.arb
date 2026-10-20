@@ -1,0 +1,34 @@
+{
+  "@@locale": "en",
+  "appTitle": "Crochet Chart Designer",
+  "settingsTooltip": "Settings",
+
+  "inputError": "Check the inputs (zero or negative values cannot be calculated)",
+  "enterValues": "Enter values",
+
+  "settingsTitle": "Settings",
+  "proActive": "Pro active",
+  "proActiveSubtitle": "All features are unlocked",
+  "upgradeTitle": "Upgrade to Pro",
+  "upgradeSubtitle": "TODO: one-line Pro pitch (one-time)",
+  "restorePurchase": "Restore purchase",
+  "restoreSubtitle": "After changing or resetting your device",
+  "restoreStarted": "Restore started",
+  "restoreFailed": "Could not restore. Check your store connection",
+  "disclaimerTitle": "Disclaimer",
+  "disclaimerBody": "TODO: results are reference values. (replace per app)",
+  "languageTitle": "Language",
+  "languageSystem": "Follow system",
+
+  "paywallTitle": "Upgrade to Pro",
+  "paywallSubtitle": "One-time {price} — not a subscription",
+  "@paywallSubtitle": { "placeholders": { "price": { "type": "String" } } },
+  "paywallBenefit1": "TODO: benefit 1",
+  "paywallBenefit2": "TODO: benefit 2",
+  "paywallBenefit3": "TODO: benefit 3",
+  "paywallBenefit4": "No ads, even if added in the future",
+  "buyButton": "Buy for {price}",
+  "@buyButton": { "placeholders": { "price": { "type": "String" } } },
+  "storeUnavailable": "Could not connect to the store",
+  "purchaseError": "An error occurred during purchase"
+}

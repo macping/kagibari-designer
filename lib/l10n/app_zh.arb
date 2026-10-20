@@ -1,0 +1,34 @@
+{
+  "@@locale": "zh",
+  "appTitle": "钩针编织图设计",
+  "settingsTooltip": "设置",
+
+  "inputError": "请检查输入值（0或负值无法计算）",
+  "enterValues": "请输入数值",
+
+  "settingsTitle": "设置",
+  "proActive": "Pro版 使用中",
+  "proActiveSubtitle": "所有功能已解锁",
+  "upgradeTitle": "升级到Pro版",
+  "upgradeSubtitle": "TODO: Pro卖点一句话（买断制）",
+  "restorePurchase": "恢复购买",
+  "restoreSubtitle": "更换设备或重新安装后",
+  "restoreStarted": "已开始恢复",
+  "restoreFailed": "无法恢复，请检查商店连接",
+  "disclaimerTitle": "免责声明",
+  "disclaimerBody": "TODO: 本应用计算结果为参考值。（按应用替换）",
+  "languageTitle": "语言",
+  "languageSystem": "跟随系统",
+
+  "paywallTitle": "升级到Pro版",
+  "paywallSubtitle": "买断制 {price}・非订阅",
+  "@paywallSubtitle": { "placeholders": { "price": { "type": "String" } } },
+  "paywallBenefit1": "TODO: 特典1",
+  "paywallBenefit2": "TODO: 特典2",
+  "paywallBenefit3": "TODO: 特典3",
+  "paywallBenefit4": "即使今后加入广告也不显示",
+  "buyButton": "以 {price} 购买",
+  "@buyButton": { "placeholders": { "price": { "type": "String" } } },
+  "storeUnavailable": "无法连接到商店",
+  "purchaseError": "购买过程中发生错误"
+}

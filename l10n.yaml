@@ -1,0 +1,5 @@
+# 模板锚=en（全球中立：主战场可能是任何国家，未翻译 key 回落英文最安全）。
+# 语言方针: 主战场国语言 + 中日英三语基线（追加语言用 add_locale.mjs）。
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
