@@ -103,7 +103,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get newGridChart => '方格编织';
 
   @override
-  String get chartDefaultTitle => '未命名编织图';
+  String get chartDefaultTitle => '未命名';
 
   @override
   String get emptyGallery => '还没有编织图。\n从上方按钮开始创建。';

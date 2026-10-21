@@ -105,7 +105,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newGridChart => 'Filet grid';
 
   @override
-  String get chartDefaultTitle => 'Untitled chart';
+  String get chartDefaultTitle => 'Untitled';
 
   @override
   String get emptyGallery =>

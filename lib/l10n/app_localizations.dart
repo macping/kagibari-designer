@@ -283,7 +283,7 @@ abstract class AppLocalizations {
   /// No description provided for @chartDefaultTitle.
   ///
   /// In en, this message translates to:
-  /// **'Untitled chart'**
+  /// **'Untitled'**
   String get chartDefaultTitle;
 
   /// No description provided for @emptyGallery.

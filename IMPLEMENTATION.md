@@ -19,7 +19,10 @@
 - **D1②+W1-W4 功能全量当日完成**（commit 0f262c6/764a9a4）：双网格画布/吸附+切向旋转/段别目数/32记号/玉編み扇形/PNG·PDF导出/水印/Pro门控(6段上限+记号锁+分辨率锁)/作品一覧/onboarding/L1备份/自绘图标
 - 新坑回写：shared_preferences_android ≥2.5.x jnigen 被 R8 剥方法→卡splash（已修+回写 mobile-day1 skill+提brick修复任务卡）
 - W1 验收：吸附几何单测往返全绿+导出实渲染目视通过；**60fps Profile 实测待真机**（模拟器不作数）
-- 剩余：模拟器冷启动验收（排队中）→ Play Console 建app+IAP商品+封测轨道（/play-release，手工）→ 商店素材（/store-kit）→ 高解像度PDF字体（和文标题暂不入PDF，图像页规避）
+- **模拟器全量验收通过（10-21，33轮机位）**：冷启动/onboarding三页/円編み新建/拖拽吸附+切向旋转/段数编辑重分布/6段Pro闸→¥800 paywall/长按删除/undo/自动保存持久化/三语切换/桌面名三语(aapt实锤)——crash区零条目
+- R8/jnigen 坑三层全记录：①SharedPreferencesApiRegistrar.getAll ②CoroutineSingletons ③kotlin.Result（终极处方=kotlin.** 全保，已回写 skill+brick 任务卡）
+- 三语截断走查对应（e6fd4ff）：记号短名三语/AppBar字号/默认标题缩短/painter缓存就绪重绘
+- 剩余：Play Console 建app+IAP商品（pro_unlock ¥800暂定）+封测轨道12测试者（/play-release，手工）→ 商店素材（/store-kit）→ W2-4 增量（PDF和文标题字体、玉編み扇形跨格渲染增强）
 
 ## D1（双动作，顺序执行）
 1. **D1①止损闸：真机装Hookchart实测30-60分**——逐项打分：円編み放射网格可用性/段别目数设定/記号回転吸着/导出质量。**体验达4★级→当场杀本案**（它只是没有评价，不代表烂），零沉没成本；体验确实≤3★级→记录具体缺陷清单=我方差异化任务书
