@@ -15,6 +15,12 @@
 - IAP：`pro_unlock` 非消耗型（已写死），价格 fallback ¥800（Console 实价待 Hookchart Premium 情报再定）
 - keystore：`D:\JAJAMBO\keys\kagibari-upload-keystore.jks`（alias=upload，密码在同目录 txt）
 
+### 进度快照（2026-10-21 当日）
+- **D1②+W1-W4 功能全量当日完成**（commit 0f262c6/764a9a4）：双网格画布/吸附+切向旋转/段别目数/32记号/玉編み扇形/PNG·PDF导出/水印/Pro门控(6段上限+记号锁+分辨率锁)/作品一覧/onboarding/L1备份/自绘图标
+- 新坑回写：shared_preferences_android ≥2.5.x jnigen 被 R8 剥方法→卡splash（已修+回写 mobile-day1 skill+提brick修复任务卡）
+- W1 验收：吸附几何单测往返全绿+导出实渲染目视通过；**60fps Profile 实测待真机**（模拟器不作数）
+- 剩余：模拟器冷启动验收（排队中）→ Play Console 建app+IAP商品+封测轨道（/play-release，手工）→ 商店素材（/store-kit）→ 高解像度PDF字体（和文标题暂不入PDF，图像页规避）
+
 ## D1（双动作，顺序执行）
 1. **D1①止损闸：真机装Hookchart实测30-60分**——逐项打分：円編み放射网格可用性/段别目数设定/記号回転吸着/导出质量。**体验达4★级→当场杀本案**（它只是没有评价，不代表烂），零沉没成本；体验确实≤3★级→记录具体缺陷清单=我方差异化任务书
 2. D1②：mobile-day1全清单+壳包AAB+12测试者封测启动

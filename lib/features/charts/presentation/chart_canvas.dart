@@ -189,6 +189,10 @@ class RoundChartPainter extends CustomPainter {
   final Chart chart;
   final bool paintPaper;
 
+  /// 構築時点のキャッシュ就緒状態。shouldRepaint で比較しないと、
+  /// warmUp 完了前に描いた占位円が完了後も残り続ける（真機で実測）。
+  final bool cacheReady = SymbolPictureCache.isReady;
+
   @override
   void paint(Canvas canvas, Size size) {
     final geometry = RoundChartGeometry(chart);
@@ -285,7 +289,9 @@ class RoundChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(RoundChartPainter oldDelegate) =>
-      oldDelegate.chart != chart || oldDelegate.paintPaper != paintPaper;
+      oldDelegate.chart != chart ||
+      oldDelegate.paintPaper != paintPaper ||
+      oldDelegate.cacheReady != cacheReady;
 }
 
 class GridChartPainter extends CustomPainter {
@@ -293,6 +299,9 @@ class GridChartPainter extends CustomPainter {
 
   final Chart chart;
   final bool paintPaper;
+
+  /// RoundChartPainter.cacheReady と同旨。
+  final bool cacheReady = SymbolPictureCache.isReady;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -374,7 +383,9 @@ class GridChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(GridChartPainter oldDelegate) =>
-      oldDelegate.chart != chart || oldDelegate.paintPaper != paintPaper;
+      oldDelegate.chart != chart ||
+      oldDelegate.paintPaper != paintPaper ||
+      oldDelegate.cacheReady != cacheReady;
 }
 
 /// モードに応じた painter を返す（サムネイル・書き出しで共用）。

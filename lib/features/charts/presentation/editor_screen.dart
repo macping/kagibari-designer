@@ -166,9 +166,14 @@ class _EditorScreenState extends State<EditorScreen> {
       listenable: _controller,
       builder: (context, _) => Scaffold(
         appBar: AppBar(
+          // 字号を一段落として実容量を稼ぐ（デフォルト22spだと英語題が「…」になる）
           title: InkWell(
             onTap: _rename,
-            child: Text(_chart.title, overflow: TextOverflow.ellipsis),
+            child: Text(
+              _chart.title,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           actions: [
             IconButton(
@@ -651,10 +656,10 @@ class _SymbolTile extends StatelessWidget {
             ),
           ),
           Text(
-            symbol.nameFor(languageCode),
+            symbol.shortFor(languageCode),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 9, color: Color(0xFF5D4A3C)),
+            style: const TextStyle(fontSize: 10, color: Color(0xFF5D4A3C)),
           ),
         ],
       ),
