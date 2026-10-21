@@ -14,7 +14,7 @@ void main() {
     localeController: LocaleController.forTest('ja'),
   );
 
-  testWidgets('起動して設定を開ける（320×568）', (tester) async {
+  testWidgets('起動して設定タブへ移れる（320×568）', (tester) async {
     tester.view.physicalSize = const Size(320, 568);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
@@ -23,9 +23,12 @@ void main() {
     await tester.pumpWidget(buildApp());
     await tester.pumpAndSettle();
 
+    // 作品一覧が出ている
+    expect(find.text('編み図デザイナー'), findsOneWidget);
+
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
-    expect(find.text('設定'), findsOneWidget);
+    expect(find.text('言語'), findsOneWidget);
   });
 
   testWidgets('未購入: 設定からペイウォールが開き価格が出る', (tester) async {

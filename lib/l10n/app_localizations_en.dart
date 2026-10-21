@@ -34,7 +34,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get upgradeTitle => 'Upgrade to Pro';
 
   @override
-  String get upgradeSubtitle => 'TODO: one-line Pro pitch (one-time)';
+  String get upgradeSubtitle => 'Unlimited rounds, all symbols, clean export';
 
   @override
   String get restorePurchase => 'Restore purchase';
@@ -53,7 +53,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get disclaimerBody =>
-      'TODO: results are reference values. (replace per app)';
+      'All chart symbols are original artwork following JIS conventions. Finished work may vary with yarn and gauge.';
 
   @override
   String get languageTitle => 'Language';
@@ -70,16 +70,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get paywallBenefit1 => 'TODO: benefit 1';
+  String get paywallBenefit1 => 'Unlimited rounds on round charts';
 
   @override
-  String get paywallBenefit2 => 'TODO: benefit 2';
+  String get paywallBenefit2 => 'All 32 crochet symbols';
 
   @override
-  String get paywallBenefit3 => 'TODO: benefit 3';
+  String get paywallBenefit3 => 'High-res export without watermark';
 
   @override
-  String get paywallBenefit4 => 'No ads, even if added in the future';
+  String get paywallBenefit4 => 'No ads — ever';
 
   @override
   String buyButton(String price) {
@@ -91,4 +91,185 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get purchaseError => 'An error occurred during purchase';
+
+  @override
+  String get homeTabCharts => 'Charts';
+
+  @override
+  String get homeTabSettings => 'Settings';
+
+  @override
+  String get newRoundChart => 'Round (amigurumi)';
+
+  @override
+  String get newGridChart => 'Filet grid';
+
+  @override
+  String get chartDefaultTitle => 'Untitled chart';
+
+  @override
+  String get emptyGallery =>
+      'No charts yet.\nCreate one from the buttons above.';
+
+  @override
+  String get renameTitle => 'Rename';
+
+  @override
+  String get duplicateChart => 'Duplicate';
+
+  @override
+  String get deleteChart => 'Delete';
+
+  @override
+  String deleteConfirm(String title) {
+    return 'Delete \"$title\"?';
+  }
+
+  @override
+  String get deleteOk => 'Delete';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String roundsCount(int n) {
+    return '$n rounds';
+  }
+
+  @override
+  String gridSize(int c, int r) {
+    return '$c×$r cells';
+  }
+
+  @override
+  String get undoTooltip => 'Undo';
+
+  @override
+  String get redoTooltip => 'Redo';
+
+  @override
+  String get eraserTooltip => 'Eraser';
+
+  @override
+  String get roundSettingsTooltip => 'Stitches per round';
+
+  @override
+  String get exportTooltip => 'Export & share';
+
+  @override
+  String get catBasic => 'Basic';
+
+  @override
+  String get catIncDec => 'Inc / dec';
+
+  @override
+  String get catFancy => 'Bobbles & texture';
+
+  @override
+  String get proLockedSymbol => 'This symbol unlocks with Pro';
+
+  @override
+  String get addRound => 'Add round';
+
+  @override
+  String get removeRound => 'Remove last round';
+
+  @override
+  String roundLabel(int n) {
+    return 'Round $n';
+  }
+
+  @override
+  String get freeRoundLimit =>
+      'The free version is limited to 6 rounds. Pro removes the limit.';
+
+  @override
+  String get gridSizeTitle => 'Grid size';
+
+  @override
+  String get rowsLabel => 'Rows';
+
+  @override
+  String get colsLabel => 'Columns';
+
+  @override
+  String get exportTitle => 'Export';
+
+  @override
+  String get exportPng => 'Share as PNG';
+
+  @override
+  String get exportPdf => 'Share as PDF';
+
+  @override
+  String get resolutionLabel => 'Resolution';
+
+  @override
+  String get watermarkNotice => 'Free exports include a small watermark';
+
+  @override
+  String get proResolution => 'High resolutions are available with Pro';
+
+  @override
+  String get exportFailed => 'Export failed';
+
+  @override
+  String get backupExport => 'Export all charts';
+
+  @override
+  String get backupExportSubtitle =>
+      'Save or share everything as one backup file';
+
+  @override
+  String get backupImport => 'Import backup';
+
+  @override
+  String get backupImportSubtitle => 'Restore charts from a backup file';
+
+  @override
+  String backupImported(int n) {
+    return 'Imported $n charts';
+  }
+
+  @override
+  String get backupFailed => 'Could not read that file';
+
+  @override
+  String get backupEmpty => 'There are no charts to export';
+
+  @override
+  String get replayOnboarding => 'View the tutorial again';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingStart => 'Start';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboarding1Title => 'Sketch the chart in your head';
+
+  @override
+  String get onboarding1Body =>
+      'Round charts for amigurumi and filet grids — with true per-round stitch counts.';
+
+  @override
+  String get onboarding2Title => 'Pick a symbol, place it';
+
+  @override
+  String get onboarding2Body =>
+      'Symbols snap to the grid and rotate automatically on round charts.';
+
+  @override
+  String get onboarding3Title => 'No ads. Fully offline.';
+
+  @override
+  String get onboarding3Body =>
+      'Pro unlocks unlimited rounds, all symbols, and high-res watermark-free export.';
 }

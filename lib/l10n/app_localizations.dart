@@ -151,7 +151,7 @@ abstract class AppLocalizations {
   /// No description provided for @upgradeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'TODO: one-line Pro pitch (one-time)'**
+  /// **'Unlimited rounds, all symbols, clean export'**
   String get upgradeSubtitle;
 
   /// No description provided for @restorePurchase.
@@ -187,7 +187,7 @@ abstract class AppLocalizations {
   /// No description provided for @disclaimerBody.
   ///
   /// In en, this message translates to:
-  /// **'TODO: results are reference values. (replace per app)'**
+  /// **'All chart symbols are original artwork following JIS conventions. Finished work may vary with yarn and gauge.'**
   String get disclaimerBody;
 
   /// No description provided for @languageTitle.
@@ -217,25 +217,25 @@ abstract class AppLocalizations {
   /// No description provided for @paywallBenefit1.
   ///
   /// In en, this message translates to:
-  /// **'TODO: benefit 1'**
+  /// **'Unlimited rounds on round charts'**
   String get paywallBenefit1;
 
   /// No description provided for @paywallBenefit2.
   ///
   /// In en, this message translates to:
-  /// **'TODO: benefit 2'**
+  /// **'All 32 crochet symbols'**
   String get paywallBenefit2;
 
   /// No description provided for @paywallBenefit3.
   ///
   /// In en, this message translates to:
-  /// **'TODO: benefit 3'**
+  /// **'High-res export without watermark'**
   String get paywallBenefit3;
 
   /// No description provided for @paywallBenefit4.
   ///
   /// In en, this message translates to:
-  /// **'No ads, even if added in the future'**
+  /// **'No ads — ever'**
   String get paywallBenefit4;
 
   /// No description provided for @buyButton.
@@ -255,6 +255,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred during purchase'**
   String get purchaseError;
+
+  /// No description provided for @homeTabCharts.
+  ///
+  /// In en, this message translates to:
+  /// **'Charts'**
+  String get homeTabCharts;
+
+  /// No description provided for @homeTabSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get homeTabSettings;
+
+  /// No description provided for @newRoundChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Round (amigurumi)'**
+  String get newRoundChart;
+
+  /// No description provided for @newGridChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Filet grid'**
+  String get newGridChart;
+
+  /// No description provided for @chartDefaultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled chart'**
+  String get chartDefaultTitle;
+
+  /// No description provided for @emptyGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'No charts yet.\nCreate one from the buttons above.'**
+  String get emptyGallery;
+
+  /// No description provided for @renameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get renameTitle;
+
+  /// No description provided for @duplicateChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get duplicateChart;
+
+  /// No description provided for @deleteChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteChart;
+
+  /// No description provided for @deleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{title}\"?'**
+  String deleteConfirm(String title);
+
+  /// No description provided for @deleteOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteOk;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @roundsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} rounds'**
+  String roundsCount(int n);
+
+  /// No description provided for @gridSize.
+  ///
+  /// In en, this message translates to:
+  /// **'{c}×{r} cells'**
+  String gridSize(int c, int r);
+
+  /// No description provided for @undoTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undoTooltip;
+
+  /// No description provided for @redoTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Redo'**
+  String get redoTooltip;
+
+  /// No description provided for @eraserTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Eraser'**
+  String get eraserTooltip;
+
+  /// No description provided for @roundSettingsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Stitches per round'**
+  String get roundSettingsTooltip;
+
+  /// No description provided for @exportTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Export & share'**
+  String get exportTooltip;
+
+  /// No description provided for @catBasic.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic'**
+  String get catBasic;
+
+  /// No description provided for @catIncDec.
+  ///
+  /// In en, this message translates to:
+  /// **'Inc / dec'**
+  String get catIncDec;
+
+  /// No description provided for @catFancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Bobbles & texture'**
+  String get catFancy;
+
+  /// No description provided for @proLockedSymbol.
+  ///
+  /// In en, this message translates to:
+  /// **'This symbol unlocks with Pro'**
+  String get proLockedSymbol;
+
+  /// No description provided for @addRound.
+  ///
+  /// In en, this message translates to:
+  /// **'Add round'**
+  String get addRound;
+
+  /// No description provided for @removeRound.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove last round'**
+  String get removeRound;
+
+  /// No description provided for @roundLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Round {n}'**
+  String roundLabel(int n);
+
+  /// No description provided for @freeRoundLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'The free version is limited to 6 rounds. Pro removes the limit.'**
+  String get freeRoundLimit;
+
+  /// No description provided for @gridSizeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid size'**
+  String get gridSizeTitle;
+
+  /// No description provided for @rowsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows'**
+  String get rowsLabel;
+
+  /// No description provided for @colsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Columns'**
+  String get colsLabel;
+
+  /// No description provided for @exportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportTitle;
+
+  /// No description provided for @exportPng.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as PNG'**
+  String get exportPng;
+
+  /// No description provided for @exportPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as PDF'**
+  String get exportPdf;
+
+  /// No description provided for @resolutionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution'**
+  String get resolutionLabel;
+
+  /// No description provided for @watermarkNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Free exports include a small watermark'**
+  String get watermarkNotice;
+
+  /// No description provided for @proResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'High resolutions are available with Pro'**
+  String get proResolution;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get exportFailed;
+
+  /// No description provided for @backupExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export all charts'**
+  String get backupExport;
+
+  /// No description provided for @backupExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save or share everything as one backup file'**
+  String get backupExportSubtitle;
+
+  /// No description provided for @backupImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import backup'**
+  String get backupImport;
+
+  /// No description provided for @backupImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore charts from a backup file'**
+  String get backupImportSubtitle;
+
+  /// No description provided for @backupImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported {n} charts'**
+  String backupImported(int n);
+
+  /// No description provided for @backupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read that file'**
+  String get backupFailed;
+
+  /// No description provided for @backupEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no charts to export'**
+  String get backupEmpty;
+
+  /// No description provided for @replayOnboarding.
+  ///
+  /// In en, this message translates to:
+  /// **'View the tutorial again'**
+  String get replayOnboarding;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboarding1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sketch the chart in your head'**
+  String get onboarding1Title;
+
+  /// No description provided for @onboarding1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Round charts for amigurumi and filet grids — with true per-round stitch counts.'**
+  String get onboarding1Body;
+
+  /// No description provided for @onboarding2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a symbol, place it'**
+  String get onboarding2Title;
+
+  /// No description provided for @onboarding2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Symbols snap to the grid and rotate automatically on round charts.'**
+  String get onboarding2Body;
+
+  /// No description provided for @onboarding3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'No ads. Fully offline.'**
+  String get onboarding3Title;
+
+  /// No description provided for @onboarding3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro unlocks unlimited rounds, all symbols, and high-res watermark-free export.'**
+  String get onboarding3Body;
 }
 
 class _AppLocalizationsDelegate

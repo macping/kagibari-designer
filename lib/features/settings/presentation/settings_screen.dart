@@ -1,23 +1,34 @@
+import 'dart:io';
+
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../core/purchase/paywall_sheet.dart';
 import '../../../core/purchase/pro_entitlement.dart';
 import '../../../core/purchase/purchase_service.dart';
 import '../../../core/settings/locale_controller.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../charts/data/chart_repository.dart';
+import '../../onboarding/onboarding_screen.dart';
 
-/// 設定: Pro購入/復元・言語・免責事項。
+/// 設定: Pro購入/復元・言語・バックアップ・使い方再視聴・免責事項。
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({
     super.key,
     required this.entitlement,
     required this.purchaseService,
     required this.localeController,
+    this.repository,
   });
 
   final ProEntitlement entitlement;
   final PurchaseService? purchaseService;
   final LocaleController localeController;
+
+  /// null ならバックアップ節を出さない（単体テスト用）。
+  final ChartRepository? repository;
 
   /// 各言語は必ず自言語で表記（今の表示言語に依存しない）
   static const _languageNames = {'ja': '日本語', 'en': 'English', 'zh': '简体中文'};
@@ -27,7 +38,10 @@ class SettingsScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsTitle)),
+      appBar: AppBar(
+        title: Text(l10n.settingsTitle),
+        automaticallyImplyLeading: false,
+      ),
       body: AnimatedBuilder(
         animation: Listenable.merge([entitlement, localeController]),
         builder: (context, _) => ListView(
@@ -69,6 +83,21 @@ class SettingsScreen extends StatelessWidget {
               ),
             ],
             const Divider(),
+            if (repository != null) ...[
+              ListTile(
+                leading: const Icon(Icons.upload_file_outlined),
+                title: Text(l10n.backupExport),
+                subtitle: Text(l10n.backupExportSubtitle),
+                onTap: () => _exportBackup(context, l10n),
+              ),
+              ListTile(
+                leading: const Icon(Icons.download_outlined),
+                title: Text(l10n.backupImport),
+                subtitle: Text(l10n.backupImportSubtitle),
+                onTap: () => _importBackup(context, l10n),
+              ),
+              const Divider(),
+            ],
             ListTile(
               leading: const Icon(Icons.language),
               title: Text(l10n.languageTitle),
@@ -81,6 +110,19 @@ class SettingsScreen extends StatelessWidget {
               trailing: const Icon(Icons.chevron_right),
               onTap: () => _showLanguagePicker(context, l10n),
             ),
+            ListTile(
+              leading: const Icon(Icons.school_outlined),
+              title: Text(l10n.replayOnboarding),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (routeContext) => OnboardingScreen(
+                    review: true,
+                    onFinished: () => Navigator.of(routeContext).pop(),
+                  ),
+                ),
+              ),
+            ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.info_outline),
@@ -91,6 +133,54 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _exportBackup(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final charts = await repository!.loadAll();
+      if (charts.isEmpty) {
+        messenger.showSnackBar(SnackBar(content: Text(l10n.backupEmpty)));
+        return;
+      }
+      final payload = repository!.encodeBackup(charts);
+      final dir = await getTemporaryDirectory();
+      final stamp = DateTime.now().toIso8601String().split('T').first;
+      final file = File('${dir.path}/kagibari-backup-$stamp.json');
+      await file.writeAsString(payload, flush: true);
+      await Share.shareXFiles([
+        XFile(file.path, mimeType: 'application/json'),
+      ]);
+    } on Exception {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.backupFailed)));
+    }
+  }
+
+  Future<void> _importBackup(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      const typeGroup = XTypeGroup(
+        label: 'backup',
+        extensions: ['json'],
+        mimeTypes: ['application/json'],
+      );
+      final file = await openFile(acceptedTypeGroups: const [typeGroup]);
+      if (file == null) return;
+      final imported = await repository!.importBackup(
+        await file.readAsString(),
+      );
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.backupImported(imported))),
+      );
+    } on Exception {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.backupFailed)));
+    }
   }
 
   Future<void> _showLanguagePicker(

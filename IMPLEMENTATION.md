@@ -6,6 +6,15 @@
 1. 包名（约定 `com.jajambo.kagibari`，无下划线）＋联系邮箱
 2. 变现拍板：免费+**広告なし**+買い切りPro ¥600-980（非消耗型IAP，商品ID写死不可改）——本案无广告SDK=无R8广告坑
 
+### 开工决定记录（2026-10-21 已拍板）
+- D1①止损闸：用户真机实测后裁决**继续**；店面复核=Hookchart 仍零评分但 9/21 活跃更新中
+- 包名 `com.jajambo.kagibari`／联系邮箱（隐私页/Console）**macping@gmail.com**
+- 仓库 https://github.com/macping/kagibari-designer（用户预建，public）；git user=macping/gaku@inculead.co.jp
+- 应用名：ja=編み図デザイナー／en兜底=Crochet Chart／zh=钩针编织图设计／iOS表示名=編み図デザイナー
+- seed色 `00695C` 深青碧（amime-jiten=8E4162 莓红，互异）
+- IAP：`pro_unlock` 非消耗型（已写死），价格 fallback ¥800（Console 实价待 Hookchart Premium 情报再定）
+- keystore：`D:\JAJAMBO\keys\kagibari-upload-keystore.jks`（alias=upload，密码在同目录 txt）
+
 ## D1（双动作，顺序执行）
 1. **D1①止损闸：真机装Hookchart实测30-60分**——逐项打分：円編み放射网格可用性/段别目数设定/記号回転吸着/导出质量。**体验达4★级→当场杀本案**（它只是没有评价，不代表烂），零沉没成本；体验确实≤3★级→记录具体缺陷清单=我方差异化任务书
 2. D1②：mobile-day1全清单+壳包AAB+12测试者封测启动

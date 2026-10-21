@@ -1,9 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'core/purchase/pro_entitlement.dart';
 import 'core/purchase/purchase_service.dart';
 import 'core/settings/locale_controller.dart';
+import 'features/charts/data/chart_repository.dart';
+import 'features/charts/presentation/chart_canvas.dart';
+import 'features/onboarding/onboarding_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,12 +35,19 @@ Future<void> main() async {
   final localeController = LocaleController();
   await entitlement.load();
   await localeController.load();
+  final repository = await ChartRepository.openDefault();
+  final prefs = await SharedPreferences.getInstance();
+  final onboardingSeen = prefs.getBool(onboardingSeenKey) ?? false;
   final purchaseService = PurchaseService(entitlement: entitlement)..init();
+  // 記号 SVG の Picture 化はバックグラウンドで先行開始（エディタ初回表示を速く）
+  unawaited(SymbolPictureCache.warmUp());
   runApp(
     App(
       entitlement: entitlement,
       purchaseService: purchaseService,
       localeController: localeController,
+      repository: repository,
+      showOnboarding: !onboardingSeen,
     ),
   );
 }

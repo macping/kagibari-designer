@@ -54,6 +54,8 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            // R8 full mode が JNI 経由メソッドを剥がすのを防ぐ（proguard-rules.pro 参照）
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 }
