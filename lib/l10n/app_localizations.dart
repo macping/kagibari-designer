@@ -634,6 +634,12 @@ abstract class AppLocalizations {
   /// **'Update'**
   String get updateAction;
 
+  /// No description provided for @updateLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get updateLater;
+
   /// No description provided for @closeTooltip.
   ///
   /// In en, this message translates to:

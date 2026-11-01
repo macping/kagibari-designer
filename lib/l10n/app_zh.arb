@@ -107,5 +107,6 @@
   "@feedbackBody": { "placeholders": { "version": { "type": "String" }, "os": { "type": "String" }, "locale": { "type": "String" } } },
   "updateAvailable": "有新版本可用",
   "updateAction": "更新",
+  "updateLater": "稍后",
   "closeTooltip": "关闭"
 }

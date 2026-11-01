@@ -106,6 +106,7 @@
   "feedbackBody": "\n\n--- 環境情報 ---\nアプリ: {version}\nOS: {os}\n言語: {locale}",
   "@feedbackBody": { "placeholders": { "version": { "type": "String" }, "os": { "type": "String" }, "locale": { "type": "String" } } },
   "updateAvailable": "新しいバージョンがあります",
-  "updateAction": "更新",
+  "updateAction": "更新する",
+  "updateLater": "あとで",
   "closeTooltip": "閉じる"
 }

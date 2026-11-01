@@ -49,7 +49,7 @@ Future<void> main() async {
       localeController: localeController,
       repository: repository,
       showOnboarding: !onboardingSeen,
-      updateChecker: UpdateChecker.platform(),
+      updateChecker: AppUpdateChecker(),
     ),
   );
 }

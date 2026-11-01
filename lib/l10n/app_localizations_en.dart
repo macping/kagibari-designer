@@ -303,5 +303,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get updateAction => 'Update';
 
   @override
+  String get updateLater => 'Later';
+
+  @override
   String get closeTooltip => 'Close';
 }

@@ -293,7 +293,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get updateAvailable => '新しいバージョンがあります';
 
   @override
-  String get updateAction => '更新';
+  String get updateAction => '更新する';
+
+  @override
+  String get updateLater => 'あとで';
 
   @override
   String get closeTooltip => '閉じる';

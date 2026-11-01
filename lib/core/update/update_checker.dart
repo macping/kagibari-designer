@@ -1,9 +1,10 @@
-/// 起動後の非強制アップデート検出（mobile-day1 §6・2026-11-01 用户新规）。
-///
-/// - 検出のみ: in_app_update の flexible/immediate フローは使わない
-/// - 失敗（機内モード・Play 不在・審査中など）は全て静黙で「新版なし」扱い
-/// - 升级検出は「完全ローカル」原則下で唯一許可された読み取り専用
-///   ネットワーク呼び出し（零データ送信・AdMob 同様の平台サービス例外）
+/// 起動時の升級検出（非強制・検出のみ。mobile-day1 §6 改訂 8462454 /
+/// 参考実装=be-dagontvangsten——2026-11-01 標準昇格モード）。
+/// - Android: in_app_update の checkForUpdate を**検出だけ**に使う
+///   （内蔵の flexible/immediate フローは使わない）→ market 導線 URI を返す
+/// - iOS: iTunes lookup API（bundleId）で最新バージョンと比較 → App Store URI
+/// - 失敗（機内モード/無網/ストア不達）は null で**静默**——矩阵「完全本地」
+///   原則下で許される唯一の只読網絡呼び出し（平台服務例外）、データ上传ゼロ
 library;
 
 import 'dart:convert';
@@ -13,97 +14,90 @@ import 'package:flutter/foundation.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../app_links.dart';
+/// 検出結果: ストア導線 + 利用可能バージョン識別子。
+/// [availableVersion] は「この版は案内済み」の記憶キーに使う
+/// （Android=availableVersionCode の文字列 / iOS=ストア版番 x.y.z）。
+class UpdateOffer {
+  const UpdateOffer({required this.storeUri, required this.availableVersion});
 
-/// 新版が検出されたときだけ値が返る。
-class UpdateInfo {
-  const UpdateInfo({required this.storeUri});
-
-  /// 「更新」ボタンの遷移先（Android=market:// / iOS=App Store URL）。
   final Uri storeUri;
+  final String availableVersion;
 }
 
+/// 新しいバージョンがあれば [UpdateOffer] を返す（なし/不明は null）。
 abstract class UpdateChecker {
-  Future<UpdateInfo?> check();
-
-  /// 実機用のプラットフォーム別実装。
-  static UpdateChecker platform() => switch (defaultTargetPlatform) {
-        TargetPlatform.android => AndroidUpdateChecker(),
-        TargetPlatform.iOS => IosUpdateChecker(),
-        _ => const NoUpdateChecker(),
-      };
+  Future<UpdateOffer?> checkForUpdate();
 }
 
-/// デスクトップ/テスト用: 常に「新版なし」。
-class NoUpdateChecker implements UpdateChecker {
-  const NoUpdateChecker();
-
+class AppUpdateChecker implements UpdateChecker {
   @override
-  Future<UpdateInfo?> check() async => null;
-}
-
-class AndroidUpdateChecker implements UpdateChecker {
-  @override
-  Future<UpdateInfo?> check() async {
+  Future<UpdateOffer?> checkForUpdate() async {
     try {
-      final info = await InAppUpdate.checkForUpdate();
-      if (info.updateAvailability == UpdateAvailability.updateAvailable) {
-        return UpdateInfo(storeUri: Uri.parse(kPlayMarketUri));
-      }
-    } on Exception {
-      // 静黙（Play 不在の端末・サイドロード・オフライン等）
+      if (kIsWeb) return null;
+      if (Platform.isAndroid) return await _checkAndroid();
+      if (Platform.isIOS) return await _checkIos();
+    } catch (_) {
+      // 静默: 升級提示が出ないだけで、エラーは一切表示しない。
     }
     return null;
   }
-}
 
-/// iOS: iTunes Lookup API で bundleId の最新版と比較する（双平台红线）。
-class IosUpdateChecker implements UpdateChecker {
-  @override
-  Future<UpdateInfo?> check() async {
-    try {
-      final package = await PackageInfo.fromPlatform();
-      final client = HttpClient()
-        ..connectionTimeout = const Duration(seconds: 8);
-      try {
-        final request = await client.getUrl(
-          Uri.parse(
-            'https://itunes.apple.com/lookup?bundleId=${package.packageName}',
-          ),
-        );
-        final response = await request.close();
-        if (response.statusCode != 200) return null;
-        final json = jsonDecode(await response.transform(utf8.decoder).join());
-        final results = (json is Map ? json['results'] : null) as List?;
-        if (results == null || results.isEmpty) return null;
-        final first = results.first as Map;
-        final latest = '${first['version']}';
-        final trackId = first['trackId'];
-        if (trackId != null && isNewerVersion(latest, package.version)) {
-          return UpdateInfo(
-            storeUri: Uri.parse('https://apps.apple.com/app/id$trackId'),
-          );
-        }
-      } finally {
-        client.close(force: true);
-      }
-    } on Exception {
-      // 静黙
+  Future<UpdateOffer?> _checkAndroid() async {
+    final info = await InAppUpdate.checkForUpdate();
+    if (info.updateAvailability != UpdateAvailability.updateAvailable) {
+      return null;
     }
-    return null;
+    final pkg = (await PackageInfo.fromPlatform()).packageName;
+    return UpdateOffer(
+      storeUri: Uri.parse('market://details?id=$pkg'),
+      availableVersion: '${info.availableVersionCode ?? 0}',
+    );
   }
-}
 
-/// '1.2.10' > '1.2.9' のようなドット区切り数値比較（非数値片は0扱い）。
-@visibleForTesting
-bool isNewerVersion(String latest, String current) {
-  final a = latest.split('.');
-  final b = current.split('.');
-  final length = a.length > b.length ? a.length : b.length;
-  for (var i = 0; i < length; i++) {
-    final x = i < a.length ? int.tryParse(a[i].trim()) ?? 0 : 0;
-    final y = i < b.length ? int.tryParse(b[i].trim()) ?? 0 : 0;
-    if (x != y) return x > y;
+  Future<UpdateOffer?> _checkIos() async {
+    final pkg = await PackageInfo.fromPlatform();
+    final client = HttpClient()..connectionTimeout = const Duration(seconds: 8);
+    try {
+      final req = await client.getUrl(
+        Uri.parse(
+          'https://itunes.apple.com/lookup?bundleId=${pkg.packageName}',
+        ),
+      );
+      final res = await req.close();
+      if (res.statusCode != 200) return null;
+      final body = await res.transform(utf8.decoder).join();
+      final json = jsonDecode(body) as Map<String, dynamic>;
+      final results = json['results'] as List<dynamic>? ?? const [];
+      if (results.isEmpty) return null;
+      final first = results.first as Map<String, dynamic>;
+      final storeVersion = first['version'] as String?;
+      final url = first['trackViewUrl'] as String?;
+      if (storeVersion == null || url == null) return null;
+      if (!isNewerVersion(storeVersion, pkg.version)) return null;
+      return UpdateOffer(
+        storeUri: Uri.parse(url),
+        availableVersion: storeVersion,
+      );
+    } finally {
+      client.close(force: true);
+    }
   }
-  return false;
+
+  /// 'a.b.c' の数値比較（桁欠けは 0 扱い・数字以外は無視）。
+  @visibleForTesting
+  static bool isNewerVersion(String store, String local) {
+    List<int> parse(String v) => v
+        .split('.')
+        .map((p) => int.tryParse(p.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0)
+        .toList(growable: false);
+    final s = parse(store);
+    final l = parse(local);
+    final n = s.length > l.length ? s.length : l.length;
+    for (var i = 0; i < n; i++) {
+      final a = i < s.length ? s[i] : 0;
+      final b = i < l.length ? l[i] : 0;
+      if (a != b) return a > b;
+    }
+    return false;
+  }
 }

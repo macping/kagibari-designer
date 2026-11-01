@@ -295,5 +295,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get updateAction => '更新';
 
   @override
+  String get updateLater => '稍后';
+
+  @override
   String get closeTooltip => '关闭';
 }

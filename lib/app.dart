@@ -88,6 +88,8 @@ class _AppState extends State<App> {
                 localeController: _localeController,
                 repository: _repository,
                 updateChecker: widget.updateChecker,
+                // 首回引導があった起動では升級案内を出さない（§6 改訂の互斥）
+                updatePromptSuppressed: widget.showOnboarding,
               ),
       ),
     );

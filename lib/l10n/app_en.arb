@@ -107,5 +107,6 @@
   "@feedbackBody": { "placeholders": { "version": { "type": "String" }, "os": { "type": "String" }, "locale": { "type": "String" } } },
   "updateAvailable": "A new version is available",
   "updateAction": "Update",
+  "updateLater": "Later",
   "closeTooltip": "Close"
 }
