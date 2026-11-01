@@ -27,18 +27,44 @@ abstract final class ChartExporter {
     Chart chart, {
     required int pixelWidth,
     required bool watermark,
+    bool includeTitle = true,
   }) async {
     final logical = chart.mode == ChartMode.round
         ? RoundChartGeometry(chart).logicalSize
         : GridChartGeometry(chart).logicalSize;
     final aspect = logical.height / logical.width;
     final width = pixelWidth.toDouble();
-    final height = (width * aspect).clamp(64.0, 16384.0);
+    // タイトルは画像に焼き込む: PDF 標準フォントに無い和文も
+    // Flutter 側のフォントフォールバックで全言語そのまま出る（字体同梱不要）。
+    final showTitle = includeTitle && chart.title.trim().isNotEmpty;
+    final headerHeight = showTitle ? width * 0.075 : 0.0;
+    final height =
+        (width * aspect + headerHeight).clamp(64.0, 16384.0);
     final size = Size(width, height);
 
     final recorder = ui.PictureRecorder();
     final canvas = ui.Canvas(recorder);
-    painterFor(chart).paint(canvas, size);
+    canvas.drawRect(Offset.zero & size, Paint()..color = chartPaperColor);
+    if (showTitle) {
+      final painter = TextPainter(
+        text: TextSpan(
+          text: chart.title,
+          style: TextStyle(
+            fontSize: width * 0.034,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF3B3129),
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+        maxLines: 1,
+        ellipsis: '…',
+      )..layout(maxWidth: width * 0.9);
+      painter.paint(canvas, Offset(width * 0.05, headerHeight * 0.3));
+    }
+    canvas.save();
+    canvas.translate(0, headerHeight);
+    painterFor(chart).paint(canvas, Size(width, width * aspect));
+    canvas.restore();
 
     if (watermark) {
       final painter = TextPainter(

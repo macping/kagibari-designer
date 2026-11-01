@@ -272,4 +272,39 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboarding3Body =>
       'Pro unlocks unlimited rounds, all symbols, and high-res watermark-free export.';
+
+  @override
+  String get supportSection => 'Support & contact';
+
+  @override
+  String get rateApp => 'Rate this app';
+
+  @override
+  String get shareApp => 'Tell a friend';
+
+  @override
+  String get shareAppText =>
+      'Crochet Chart Designer — sketch crochet charts right on your phone. No ads, fully offline.\nhttps://play.google.com/store/apps/details?id=com.jajambo.kagibari';
+
+  @override
+  String get feedbackMenu => 'Send feedback';
+
+  @override
+  String feedbackSubject(String version) {
+    return '[Crochet Chart Designer v$version] Feedback';
+  }
+
+  @override
+  String feedbackBody(String version, String os, String locale) {
+    return '\n\n--- environment ---\nApp: $version\nOS: $os\nLanguage: $locale';
+  }
+
+  @override
+  String get updateAvailable => 'A new version is available';
+
+  @override
+  String get updateAction => 'Update';
+
+  @override
+  String get closeTooltip => 'Close';
 }

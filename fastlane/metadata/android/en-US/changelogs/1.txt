@@ -1,0 +1,6 @@
+First release of Crochet Chart Designer.
+- Round charts (amigurumi): symbols snap & auto-rotate on a radial grid
+- Per-round stitch counts with automatic redistribution
+- Filet grid mode / 32 original JIS-style symbols
+- PNG & PDF export and sharing / one-file backup
+- No ads, fully offline

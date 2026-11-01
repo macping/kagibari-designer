@@ -1,0 +1,2 @@
+json_key_file("D:/JAJAMBO/keys/play-api-key.json")   # 仓库外（Play Console API 服务账号密钥）
+package_name("com.jajambo.kagibari")

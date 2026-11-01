@@ -95,5 +95,18 @@
   "onboarding2Title": "記号を選んで、置くだけ",
   "onboarding2Body": "マス目に自動で吸着。円編みでは記号の向きも自動で揃います。",
   "onboarding3Title": "広告なし。すべて端末の中で",
-  "onboarding3Body": "Pro版は段数無制限・全記号・高解像度の透かしなし書き出し。"
+  "onboarding3Body": "Pro版は段数無制限・全記号・高解像度の透かしなし書き出し。",
+
+  "supportSection": "応援・連絡",
+  "rateApp": "評価する",
+  "shareApp": "友達に教える",
+  "shareAppText": "編み図デザイナー：かぎ針編みの編み図を指先でデザイン。広告なし・完全オフライン。\nhttps://play.google.com/store/apps/details?id=com.jajambo.kagibari",
+  "feedbackMenu": "フィードバック",
+  "feedbackSubject": "[編み図デザイナー v{version}] ご意見",
+  "@feedbackSubject": { "placeholders": { "version": { "type": "String" } } },
+  "feedbackBody": "\n\n--- 環境情報 ---\nアプリ: {version}\nOS: {os}\n言語: {locale}",
+  "@feedbackBody": { "placeholders": { "version": { "type": "String" }, "os": { "type": "String" }, "locale": { "type": "String" } } },
+  "updateAvailable": "新しいバージョンがあります",
+  "updateAction": "更新",
+  "closeTooltip": "閉じる"
 }

@@ -6,6 +6,7 @@ import 'core/purchase/pro_entitlement.dart';
 import 'core/purchase/purchase_service.dart';
 import 'core/settings/locale_controller.dart';
 import 'core/theme/app_theme.dart';
+import 'core/update/update_checker.dart';
 import 'features/charts/data/chart_repository.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'home_shell.dart';
@@ -20,6 +21,7 @@ class App extends StatefulWidget {
     this.localeController,
     this.repository,
     this.showOnboarding = false,
+    this.updateChecker,
   });
 
   /// null なら未購入状態で起動（テスト・プレビュー用）。
@@ -35,6 +37,9 @@ class App extends StatefulWidget {
 
   /// true = 初回起動引導を表示（main が seen フラグから決める）。
   final bool showOnboarding;
+
+  /// null = アップデート検出なし（テスト・プレビュー既定）。
+  final UpdateChecker? updateChecker;
 
   @override
   State<App> createState() => _AppState();
@@ -82,6 +87,7 @@ class _AppState extends State<App> {
                 purchaseService: widget.purchaseService,
                 localeController: _localeController,
                 repository: _repository,
+                updateChecker: widget.updateChecker,
               ),
       ),
     );

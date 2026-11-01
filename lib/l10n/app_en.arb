@@ -95,5 +95,18 @@
   "onboarding2Title": "Pick a symbol, place it",
   "onboarding2Body": "Symbols snap to the grid and rotate automatically on round charts.",
   "onboarding3Title": "No ads. Fully offline.",
-  "onboarding3Body": "Pro unlocks unlimited rounds, all symbols, and high-res watermark-free export."
+  "onboarding3Body": "Pro unlocks unlimited rounds, all symbols, and high-res watermark-free export.",
+
+  "supportSection": "Support & contact",
+  "rateApp": "Rate this app",
+  "shareApp": "Tell a friend",
+  "shareAppText": "Crochet Chart Designer — sketch crochet charts right on your phone. No ads, fully offline.\nhttps://play.google.com/store/apps/details?id=com.jajambo.kagibari",
+  "feedbackMenu": "Send feedback",
+  "feedbackSubject": "[Crochet Chart Designer v{version}] Feedback",
+  "@feedbackSubject": { "placeholders": { "version": { "type": "String" } } },
+  "feedbackBody": "\n\n--- environment ---\nApp: {version}\nOS: {os}\nLanguage: {locale}",
+  "@feedbackBody": { "placeholders": { "version": { "type": "String" }, "os": { "type": "String" }, "locale": { "type": "String" } } },
+  "updateAvailable": "A new version is available",
+  "updateAction": "Update",
+  "closeTooltip": "Close"
 }

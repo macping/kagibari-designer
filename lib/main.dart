@@ -7,6 +7,7 @@ import 'app.dart';
 import 'core/purchase/pro_entitlement.dart';
 import 'core/purchase/purchase_service.dart';
 import 'core/settings/locale_controller.dart';
+import 'core/update/update_checker.dart';
 import 'features/charts/data/chart_repository.dart';
 import 'features/charts/presentation/chart_canvas.dart';
 import 'features/onboarding/onboarding_screen.dart';
@@ -48,6 +49,7 @@ Future<void> main() async {
       localeController: localeController,
       repository: repository,
       showOnboarding: !onboardingSeen,
+      updateChecker: UpdateChecker.platform(),
     ),
   );
 }

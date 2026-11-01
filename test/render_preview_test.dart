@@ -5,10 +5,27 @@ library;
 
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kagibari_designer/core/export/chart_exporter.dart';
 import 'package:kagibari_designer/features/charts/domain/chart.dart';
 import 'package:kagibari_designer/features/charts/presentation/chart_canvas.dart';
+
+/// テスト既定の Ahem だと段番号が豆腐になる——Flutter SDK 同梱の Roboto を
+/// 'ChartLabel'（chartLabelStyle の fontFamily）として登録して実数字を出す。
+/// SDK パスが取れない環境では黙ってスキップ（検証自体は成立する）。
+Future<void> _loadChartLabelFont() async {
+  final flutterRoot = Platform.environment['FLUTTER_ROOT'];
+  if (flutterRoot == null) return;
+  final file = File(
+    '$flutterRoot/bin/cache/artifacts/material_fonts/Roboto-Regular.ttf',
+  );
+  if (!file.existsSync()) return;
+  final bytes = file.readAsBytesSync();
+  final loader = FontLoader('ChartLabel')
+    ..addFont(Future.value(ByteData.view(bytes.buffer)));
+  await loader.load();
+}
 
 Chart _sampleRound() {
   final chart = Chart(
@@ -74,15 +91,19 @@ Chart _sampleGrid() {
 void main() {
   testWidgets('円編み/方眼の実レンダリングが PNG に出る', (tester) async {
     await tester.runAsync(() async {
+      await _loadChartLabelFont();
       await SymbolPictureCache.warmUp();
       expect(SymbolPictureCache.isReady, isTrue);
 
       final dir = Directory('build/preview')..createSync(recursive: true);
 
+      // includeTitle=false: テスト環境の文字は Ahem 豆腐になるため、
+      // 店頭素材（shots.html）にも流用できる図面のみを出す。
       final roundPng = await ChartExporter.renderPng(
         _sampleRound(),
         pixelWidth: 1200,
-        watermark: true,
+        watermark: false,
+        includeTitle: false,
       );
       expect(roundPng.length, greaterThan(10000));
       File('${dir.path}/round.png').writeAsBytesSync(roundPng);
@@ -91,6 +112,7 @@ void main() {
         _sampleGrid(),
         pixelWidth: 1200,
         watermark: false,
+        includeTitle: false,
       );
       expect(gridPng.length, greaterThan(10000));
       File('${dir.path}/grid.png').writeAsBytesSync(gridPng);

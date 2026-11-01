@@ -23,6 +23,12 @@ const _gridLineStrong = Color(0x4D5D4A3C);
 const _labelColor = Color(0x995D4A3C);
 const _emptyDotColor = Color(0x335D4A3C);
 
+/// 段番号/行列番号のスタイル。fontFamily 'ChartLabel' は実機には存在せず
+/// システム既定へフォールバックする。テスト環境では FontLoader で実フォントを
+/// この名前で登録でき、店頭素材用レンダリングの豆腐化を防ぐ（render_preview_test）。
+const chartLabelStyle =
+    TextStyle(fontSize: 11, color: _labelColor, fontFamily: 'ChartLabel');
+
 /// 全記号 SVG → ui.Picture の事前キャッシュ。
 abstract final class SymbolPictureCache {
   static final Map<String, PictureInfo> _pictures = {};
@@ -270,10 +276,7 @@ class RoundChartPainter extends CustomPainter {
 
   void _paintLabel(Canvas canvas, String text, Offset at) {
     final painter = TextPainter(
-      text: TextSpan(
-        text: text,
-        style: const TextStyle(fontSize: 11, color: _labelColor),
-      ),
+      text: TextSpan(text: text, style: chartLabelStyle),
       textDirection: TextDirection.ltr,
     )..layout();
     final topLeft = at - Offset(painter.width / 2, painter.height / 2);
@@ -372,10 +375,7 @@ class GridChartPainter extends CustomPainter {
 
   void _paintLabel(Canvas canvas, String text, Offset at) {
     final painter = TextPainter(
-      text: TextSpan(
-        text: text,
-        style: const TextStyle(fontSize: 11, color: _labelColor),
-      ),
+      text: TextSpan(text: text, style: chartLabelStyle),
       textDirection: TextDirection.ltr,
     )..layout();
     painter.paint(canvas, at - Offset(painter.width / 2, painter.height / 2));

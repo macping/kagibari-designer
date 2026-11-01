@@ -1,0 +1,40 @@
+# kagibari-designer fastlane（模板来源: pipeline/fastlane/Fastfile.template）
+# 前置:
+#   1. Play Console → 設定 → API アクセス → 服务账号 JSON 密钥
+#      存到 D:\JAJAMBO\keys\play-api-key.json（仓库外）
+#   2. 元数据: node D:/JAJAMBO/jajambo-mobile/pipeline/tools/sync_store_metadata.mjs .
+# ⚠ 首次 app 创建・IAP 商品创建・问卷 无 API——仍需 Console 手工（见 play-release skill）
+
+default_platform(:android)
+
+platform :android do
+  desc "验证元数据（不上传，先跑这个）"
+  lane :validate do
+    upload_to_play_store(
+      track: "internal",
+      validate_only: true,
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+    )
+  end
+
+  desc "只上传商店文案+图片（三语）"
+  lane :metadata do
+    upload_to_play_store(
+      skip_upload_aab: true,
+      skip_upload_apk: true,
+      skip_upload_changelogs: true,
+      sync_image_upload: true,
+    )
+  end
+
+  desc "上传 AAB 到封闭测试轨道（versionCode 必须已递增！）"
+  lane :closed do
+    upload_to_play_store(
+      track: "alpha",              # 封閉テスト轨道名按 Console 实际填
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+end

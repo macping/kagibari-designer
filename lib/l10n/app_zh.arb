@@ -95,5 +95,18 @@
   "onboarding2Title": "选择记号，点击放置",
   "onboarding2Body": "自动吸附到网格，环形图中记号方向也会自动对齐。",
   "onboarding3Title": "无广告，完全离线",
-  "onboarding3Body": "Pro版解锁不限段数、全部记号和高分辨率无水印导出。"
+  "onboarding3Body": "Pro版解锁不限段数、全部记号和高分辨率无水印导出。",
+
+  "supportSection": "支持与反馈",
+  "rateApp": "去评分",
+  "shareApp": "推荐给朋友",
+  "shareAppText": "钩针编织图设计——在手机上绘制钩针编织图。无广告、完全离线。\nhttps://play.google.com/store/apps/details?id=com.jajambo.kagibari",
+  "feedbackMenu": "意见反馈",
+  "feedbackSubject": "[钩针编织图设计 v{version}] 意见反馈",
+  "@feedbackSubject": { "placeholders": { "version": { "type": "String" } } },
+  "feedbackBody": "\n\n--- 环境信息 ---\n应用: {version}\n系统: {os}\n语言: {locale}",
+  "@feedbackBody": { "placeholders": { "version": { "type": "String" }, "os": { "type": "String" }, "locale": { "type": "String" } } },
+  "updateAvailable": "有新版本可用",
+  "updateAction": "更新",
+  "closeTooltip": "关闭"
 }

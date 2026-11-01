@@ -264,4 +264,39 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get onboarding3Body => 'Pro版解锁不限段数、全部记号和高分辨率无水印导出。';
+
+  @override
+  String get supportSection => '支持与反馈';
+
+  @override
+  String get rateApp => '去评分';
+
+  @override
+  String get shareApp => '推荐给朋友';
+
+  @override
+  String get shareAppText =>
+      '钩针编织图设计——在手机上绘制钩针编织图。无广告、完全离线。\nhttps://play.google.com/store/apps/details?id=com.jajambo.kagibari';
+
+  @override
+  String get feedbackMenu => '意见反馈';
+
+  @override
+  String feedbackSubject(String version) {
+    return '[钩针编织图设计 v$version] 意见反馈';
+  }
+
+  @override
+  String feedbackBody(String version, String os, String locale) {
+    return '\n\n--- 环境信息 ---\n应用: $version\n系统: $os\n语言: $locale';
+  }
+
+  @override
+  String get updateAvailable => '有新版本可用';
+
+  @override
+  String get updateAction => '更新';
+
+  @override
+  String get closeTooltip => '关闭';
 }

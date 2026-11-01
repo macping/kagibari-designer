@@ -1,6 +1,9 @@
 /// ランチャーアイコン生成（領域母題=放射網格の微型編み図、全自作描画）。
 /// assets/icon/ に PNG を吐き、flutter_launcher_icons がそれを各密度へ展開する。
-/// テストランナー上で dart:ui を使うための test 形式（CI でも再生成可能）。
+///
+/// v2（2026-11-01 矩阵対照目検の結論）: 初版の「深緑底×クリーム同心円」は
+/// schiessbuch（射撃の的紋）と母題・配色が衝突 → 明暗反転で再設計。
+/// 紙色底 × teal 墨線網格 × 陶土橙の増し目V（direction.md の accent）。
 library;
 
 import 'dart:io';
@@ -11,10 +14,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const _teal = Color(0xFF00695C);
-const _tealDark = Color(0xFF004A40);
-const _cream = Color(0xFFFDFAF4);
+const _tealDeep = Color(0xFF004A40);
+const _paper = Color(0xFFFDFAF4);
+const _paperEdge = Color(0xFFF1E8D8);
+const _accent = Color(0xFFC96F4A);
 
-/// 放射網格モチーフ（中心円+2リング+目盛+細編み×印）を描く。
+/// 放射網格モチーフ（中心輪+2リング+目盛+細編み×印+増し目V印）。
 /// [radius] = モチーフ外接半径。
 void _paintMotif(Canvas canvas, Offset center, double radius, Color ink) {
   final ringPaint = Paint()
@@ -46,22 +51,35 @@ void _paintMotif(Canvas canvas, Offset center, double radius, Color ink) {
       tickPaint,
     );
   }
-  // リング2-3間: 細編みの×印（8個、スロット中央）
-  final crossPaint = Paint()
-    ..color = ink
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = radius * 0.075
-    ..strokeCap = StrokeCap.round;
+
+  // リング2-3間: 細編み×印（7個）+ 真上だけ増し目V印（accent 焦点）
   final rm = (r1 + r2) / 2;
   final arm = radius * 0.1;
   for (var k = 0; k < 8; k++) {
-    final angle = -math.pi / 2 + 2 * math.pi * (k + 0.5) / 8;
+    final angle = -math.pi / 2 + 2 * math.pi * k / 8;
     final at = center + Offset(math.cos(angle), math.sin(angle)) * rm;
     canvas.save();
     canvas.translate(at.dx, at.dy);
     canvas.rotate(angle + math.pi / 2);
-    canvas.drawLine(Offset(-arm, -arm), Offset(arm, arm), crossPaint);
-    canvas.drawLine(Offset(arm, -arm), Offset(-arm, arm), crossPaint);
+    if (k == 0) {
+      // 増し目V（あみぐるみの象徴）: accent 色・やや太く
+      final vPaint = Paint()
+        ..color = _accent
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = radius * 0.095
+        ..strokeCap = StrokeCap.round;
+      final v = arm * 1.15;
+      canvas.drawLine(Offset(-v, -v), Offset.zero, vPaint);
+      canvas.drawLine(Offset(v, -v), Offset.zero, vPaint);
+    } else {
+      final crossPaint = Paint()
+        ..color = ink
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = radius * 0.075
+        ..strokeCap = StrokeCap.round;
+      canvas.drawLine(Offset(-arm, -arm), Offset(arm, arm), crossPaint);
+      canvas.drawLine(Offset(arm, -arm), Offset(-arm, arm), crossPaint);
+    }
     canvas.restore();
   }
 }
@@ -85,7 +103,8 @@ void main() {
       const size = Size(1024, 1024);
       const center = Offset(512, 512);
 
-      // フル版（レガシー/iOS）: ティール地 + クリームのモチーフ
+      // フル版（レガシー/iOS）: 紙色地 + teal モチーフ（明底深線——矩阵の
+      // 深底明線系（schiessbuch等）と明暗反転で区別）
       await _savePng('assets/icon/icon_full.png', size, (canvas) {
         final rect = Offset.zero & size;
         canvas.drawRect(
@@ -94,15 +113,23 @@ void main() {
             ..shader = const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [_teal, _tealDark],
+              colors: [_paper, _paperEdge],
             ).createShader(rect),
         );
-        _paintMotif(canvas, center, 360, _cream);
+        // 细い紙縁取り（白アイコン化の防止）
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(rect.deflate(14), const Radius.circular(180)),
+          Paint()
+            ..color = _tealDeep.withValues(alpha: 0.12)
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 28,
+        );
+        _paintMotif(canvas, center, 360, _teal);
       });
 
       // adaptive foreground: 透過地・セーフゾーン（中央61%）内に収める
       await _savePng('assets/icon/icon_foreground.png', size, (canvas) {
-        _paintMotif(canvas, center, 290, _cream);
+        _paintMotif(canvas, center, 290, _teal);
       });
 
       expect(File('assets/icon/icon_full.png').lengthSync(), greaterThan(5000));

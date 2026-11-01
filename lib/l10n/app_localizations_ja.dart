@@ -265,4 +265,39 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get onboarding3Body => 'Pro版は段数無制限・全記号・高解像度の透かしなし書き出し。';
+
+  @override
+  String get supportSection => '応援・連絡';
+
+  @override
+  String get rateApp => '評価する';
+
+  @override
+  String get shareApp => '友達に教える';
+
+  @override
+  String get shareAppText =>
+      '編み図デザイナー：かぎ針編みの編み図を指先でデザイン。広告なし・完全オフライン。\nhttps://play.google.com/store/apps/details?id=com.jajambo.kagibari';
+
+  @override
+  String get feedbackMenu => 'フィードバック';
+
+  @override
+  String feedbackSubject(String version) {
+    return '[編み図デザイナー v$version] ご意見';
+  }
+
+  @override
+  String feedbackBody(String version, String os, String locale) {
+    return '\n\n--- 環境情報 ---\nアプリ: $version\nOS: $os\n言語: $locale';
+  }
+
+  @override
+  String get updateAvailable => '新しいバージョンがあります';
+
+  @override
+  String get updateAction => '更新';
+
+  @override
+  String get closeTooltip => '閉じる';
 }

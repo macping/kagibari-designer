@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- 商店截图复刻画布。用法: shots.html?lang=ja&shot=1&dev=phone
+     lang: ja|en|zh / shot: 1..6 / dev: phone(1080x1920)|tab7(1200x1920)|tab10(1600x2560)
+     画面内編み図 = app 导出管线实渲染 PNG（round.png/grid.png，渲染脚本自动拷入）。
+     记号 tile = 机内同一套自绘 SVG。数值全部为引擎定番増し目实值（6→12→18→24→30→36）。 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-deep: #004A40; --teal: #00695C; --teal-soft: #2E8578;
+    --paper: #FDFAF4; --paper-edge: #F1E8D8;
+    --ink: #1A1A1A; --ink-soft: #5D4A3C;
+    --accent: #C96F4A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; }
+  body {
+    background: linear-gradient(160deg, var(--paper) 0%, var(--paper-edge) 100%);
+    font-family: 'Noto Sans JP', sans-serif; color: var(--ink);
+    display: flex; flex-direction: column;
+  }
+  /* mono 系统脊柱 */
+  .spine {
+    font-family: 'JetBrains Mono', monospace; font-size: 22px; letter-spacing: .35em;
+    color: var(--ink-soft); padding: 54px 72px 26px;
+    border-bottom: 2px solid rgba(93,74,60,.25); margin: 0 0 0;
+    display: flex; justify-content: space-between;
+  }
+  .spine b { color: var(--teal); font-weight: 600; }
+  .head { padding: 72px 72px 0; }
+  h1 {
+    font-family: 'Noto Serif JP', serif; font-weight: 700;
+    font-size: 84px; line-height: 1.22; letter-spacing: .01em; white-space: pre-line;
+  }
+  .sub { font-size: 34px; color: var(--ink-soft); margin-top: 26px; line-height: 1.5; white-space: pre-line; }
+  .stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 72px 96px; }
+  .card {
+    background: var(--paper); border: 2px solid rgba(93,74,60,.22);
+    border-radius: 28px; box-shadow: 0 24px 60px rgba(0,74,64,.14);
+    overflow: hidden;
+  }
+  .chartimg { display: block; }
+  .chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 600;
+    color: var(--paper); background: var(--teal); border-radius: 999px;
+    padding: 12px 30px; display: inline-block;
+  }
+  .chip.accent { background: var(--accent); }
+  /* S2 编辑器复刻 */
+  .palette { border-top: 2px solid rgba(93,74,60,.18); background: #ECF2EF; padding: 20px 18px 24px; }
+  .chips { display: flex; gap: 12px; margin-bottom: 16px; }
+  .fchip {
+    font-size: 24px; padding: 10px 24px; border-radius: 999px;
+    border: 1.5px solid rgba(93,74,60,.3); color: var(--ink-soft); background: var(--paper);
+  }
+  .fchip.on { background: #CFE5DE; border-color: #CFE5DE; color: #0B3B33; font-weight: 700; }
+  .tiles { display: flex; gap: 12px; }
+  .tile {
+    width: 118px; background: var(--paper); border: 1.5px solid rgba(93,74,60,.3);
+    border-radius: 16px; padding: 12px 6px 8px; text-align: center;
+  }
+  .tile.sel { border: 4px solid var(--teal); }
+  .tile img { width: 62px; height: 62px; }
+  .tile .nm { font-size: 17px; color: var(--ink-soft); margin-top: 4px; white-space: nowrap; }
+  /* S3 段数面板 */
+  .rounds { width: 760px; padding: 36px 44px; }
+  .rounds h2 { font-size: 36px; font-weight: 700; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+  .addpill { font-size: 26px; font-weight: 700; color: #0B3B33; background: #CFE5DE; border-radius: 999px; padding: 12px 28px; }
+  .rrow { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; border-bottom: 1.5px solid rgba(93,74,60,.14); font-size: 32px; }
+  .rrow:last-child { border-bottom: 0; }
+  .stepper { display: flex; align-items: center; gap: 26px; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .stepper .pm { color: var(--ink-soft); font-size: 36px; }
+  .stepper .n { font-size: 38px; min-width: 70px; text-align: center; }
+  /* S5 导出卡 */
+  .exptitle { font-family: 'Noto Serif JP', serif; font-size: 40px; font-weight: 600; padding: 30px 36px 6px; }
+  .exprow { display: flex; gap: 14px; padding: 20px 36px 30px; }
+  /* S6 Pro */
+  .pro { width: 800px; padding: 48px 56px; }
+  .pro .benefit { display: flex; align-items: center; gap: 24px; font-size: 34px; padding: 20px 0; }
+  .pro .benefit svg { flex: 0 0 48px; }
+  .price { margin-top: 36px; text-align: center; }
+  .price .big { font-family: 'Noto Serif JP', serif; font-size: 72px; font-weight: 700; color: var(--teal-deep); }
+  .price .note { font-size: 28px; color: var(--ink-soft); margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="spine"><span>KAGIBARI — <b>CROCHET CHART</b></span><span id="spineR">OFFLINE · NO ADS</span></div>
+<div class="head"><h1 id="tag"></h1><div class="sub" id="sub"></div></div>
+<div class="stage" id="stage"></div>
+
+<script>
+const q = new URLSearchParams(location.search);
+const lang = q.get('lang') || 'ja';
+const shot = +(q.get('shot') || 1);
+const dev = q.get('dev') || 'phone';
+
+// 设备尺寸: 内容按 1080 设计，zoom 放大保持矢量清晰
+const devs = { phone: [1080, 1920, 1], tab7: [1200, 1920, 1.02], tab10: [1600, 2560, 1.333] };
+const [W, H, Z] = devs[dev] || devs.phone;
+document.documentElement.style.width = W + 'px';
+document.documentElement.style.height = H + 'px';
+document.body.style.width = (W / Z) + 'px';
+document.body.style.height = (H / Z) + 'px';
+document.body.style.zoom = Z;
+
+const T = {
+  ja: {
+    tag: ['あみぐるみの編み図が、\n指先で。', '記号を置くだけ。\n自動で吸着・回転。', '段ごとの目数を、\n正確に。', '方眼編みも、\nこの一本で。', 'PNG・PDFで、\nきれいに共有。', '広告なし。\n買い切りPro。'],
+    sub: ['円編みの放射グリッドに、JIS準拠の自作記号32種。', 'かぎ針編みのための作図キャンバス。', '6→12→18…増し目の構造がそのまま図になる。', 'ブランケットやグラフガンの設計に。', '編み図のタイトルも画像にそのまま。', 'サブスクなし。一度の購入でずっと。'],
+    chips: ['消しゴム', '基本', '増減目', '玉編み・模様'],
+    tiles: ['鎖編み', '引き抜き', '細編み', '中長編み', '長編み', '長々編み'],
+    roundsTitle: '段ごとの目数', add: '＋ 段を追加', round: n => `${n}段目`,
+    expTitle: 'くまのあたま（6段）', png: 'PNGで共有', pdf: 'PDFで共有',
+    benefits: ['円編みの段数無制限', '全32種のかぎ針記号', '高解像度・透かしなし書き出し', '広告は一切なし（今後もずっと）'],
+    price: '¥800', priceNote: '買い切り・サブスクではありません',
+    s1chip: '6段・36目', s4chip: '12×12マス',
+  },
+  en: {
+    tag: ['Amigurumi charts,\nat your fingertips.', 'Place a symbol.\nIt snaps & rotates.', 'True stitch counts,\nper round.', 'Filet grids too,\nin the same app.', 'Share as PNG\nor PDF.', 'No ads.\nOne-time Pro.'],
+    sub: ['A radial grid with 32 original JIS-style symbols.', 'A drawing canvas made for crochet.', '6→12→18… real increase structure, charted.', 'For blankets, potholders and graphghans.', 'Your chart title is rendered into the image.', 'No subscription. Buy once, keep forever.'],
+    chips: ['Eraser', 'Basic', 'Inc / dec', 'Bobbles & texture'],
+    tiles: ['ch', 'sl st', 'sc', 'hdc', 'dc', 'tr'],
+    roundsTitle: 'Stitches per round', add: '+ Add round', round: n => `Round ${n}`,
+    expTitle: 'Bear head (6 rounds)', png: 'Share as PNG', pdf: 'Share as PDF',
+    benefits: ['Unlimited rounds on round charts', 'All 32 crochet symbols', 'High-res export without watermark', 'No ads — ever'],
+    price: '¥800', priceNote: 'One-time purchase — not a subscription',
+    s1chip: '6 rounds · 36 sts', s4chip: '12×12 cells',
+  },
+  zh: {
+    tag: ['玩偶编织图，\n指尖画成。', '放上记号，\n自动吸附、自动旋转。', '每段针数，\n精确设定。', '方格编织图，\n同一款搞定。', 'PNG·PDF\n导出分享。', '无广告。\n买断制 Pro。'],
+    sub: ['放射网格＋32种原创JIS风格记号。', '为钩针编织而生的制图画布。', '6→12→18…加针结构直接成图。', '适合毯子、隔热垫与graphghan。', '编织图标题一并渲染进图片。', '非订阅制，一次购买永久使用。'],
+    chips: ['橡皮擦', '基础', '加减针', '玉编·花样'],
+    tiles: ['锁针', '引拔', '短针', '中长针', '长针', '长长针'],
+    roundsTitle: '每段针数', add: '＋ 添加一段', round: n => `第${n}段`,
+    expTitle: '小熊头部（6段）', png: '分享PNG', pdf: '分享PDF',
+    benefits: ['环形编织图不限段数', '全部32种钩针记号', '高分辨率·无水印导出', '完全无广告（今后也是）'],
+    price: '¥800', priceNote: '买断制·非订阅',
+    s1chip: '6段·36针', s4chip: '12×12格',
+  },
+}[lang];
+
+document.getElementById('tag').textContent = T.tag[shot - 1];
+document.getElementById('sub').textContent = T.sub[shot - 1];
+
+const tileIds = ['kusari', 'hikinuki', 'koma', 'chunaga', 'naga', 'naganaga'];
+const sym = id => `../../../assets/symbols/${id}.svg`;
+const stage = document.getElementById('stage');
+
+function el(html) { const d = document.createElement('div'); d.innerHTML = html; return d.firstElementChild; }
+
+if (shot === 1) {
+  stage.appendChild(el(`<div style="text-align:center">
+    <div class="card" style="width:900px;padding:26px"><img class="chartimg" src="round.png" style="width:100%"></div>
+    <div style="margin-top:34px"><span class="chip">${T.s1chip}</span></div>
+  </div>`));
+} else if (shot === 2) {
+  stage.appendChild(el(`<div class="card" style="width:900px">
+    <img class="chartimg" src="round.png" style="width:100%">
+    <div class="palette">
+      <div class="chips">${T.chips.map((c, i) => `<span class="fchip${i === 1 ? ' on' : ''}">${i === 1 ? '✓ ' : ''}${c}</span>`).join('')}</div>
+      <div class="tiles">${tileIds.map((id, i) => `<div class="tile${i === 2 ? ' sel' : ''}"><img src="${sym(id)}"><div class="nm">${T.tiles[i]}</div></div>`).join('')}</div>
+    </div>
+  </div>`));
+} else if (shot === 3) {
+  const counts = [36, 30, 24, 18, 12, 6];
+  stage.appendChild(el(`<div class="card rounds">
+    <h2><span>${T.roundsTitle}</span><span class="addpill">${T.add}</span></h2>
+    ${counts.map((n, i) => `<div class="rrow"><span>${T.round(6 - i)}</span>
+      <span class="stepper"><span class="pm">−</span><span class="n">${n}</span><span class="pm">＋</span></span></div>`).join('')}
+  </div>`));
+} else if (shot === 4) {
+  stage.appendChild(el(`<div style="text-align:center">
+    <div class="card" style="width:880px;padding:26px"><img class="chartimg" src="grid.png" style="width:100%"></div>
+    <div style="margin-top:34px"><span class="chip">${T.s4chip}</span></div>
+  </div>`));
+} else if (shot === 5) {
+  stage.appendChild(el(`<div class="card" style="width:880px">
+    <div class="exptitle">${T.expTitle}</div>
+    <img class="chartimg" src="round.png" style="width:100%">
+    <div class="exprow"><span class="chip">${T.png}</span><span class="chip" style="background:var(--teal-soft)">${T.pdf}</span></div>
+  </div>`));
+} else {
+  const icons = [
+    '<svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="none" stroke="#00695C" stroke-width="4"/><path d="M14 24h20M24 14v20" stroke="#00695C" stroke-width="4" stroke-linecap="round"/></svg>',
+    '<svg width="48" height="48" viewBox="0 0 48 48"><path d="M12 12l24 24M36 12L12 36" stroke="#00695C" stroke-width="5" stroke-linecap="round"/></svg>',
+    '<svg width="48" height="48" viewBox="0 0 48 48"><rect x="8" y="8" width="32" height="32" rx="6" fill="none" stroke="#00695C" stroke-width="4"/><path d="M16 30l6-8 5 5 6-9" stroke="#00695C" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    '<svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="#C96F4A" stroke-width="4"/><path d="M11 11l26 26" stroke="#C96F4A" stroke-width="4" stroke-linecap="round"/></svg>',
+  ];
+  stage.appendChild(el(`<div class="card pro">
+    ${T.benefits.map((b, i) => `<div class="benefit">${icons[i]}<span>${b}</span></div>`).join('')}
+    <div class="price"><div class="big">${T.price}</div><div class="note">${T.priceNote}</div></div>
+  </div>`));
+}
+</script>
+</body>
+</html>

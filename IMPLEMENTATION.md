@@ -22,7 +22,9 @@
 - **模拟器全量验收通过（10-21，33轮机位）**：冷启动/onboarding三页/円編み新建/拖拽吸附+切向旋转/段数编辑重分布/6段Pro闸→¥800 paywall/长按删除/undo/自动保存持久化/三语切换/桌面名三语(aapt实锤)——crash区零条目
 - R8/jnigen 坑三层全记录：①SharedPreferencesApiRegistrar.getAll ②CoroutineSingletons ③kotlin.Result（终极处方=kotlin.** 全保，已回写 skill+brick 任务卡）
 - 三语截断走查对应（e6fd4ff）：记号短名三语/AppBar字号/默认标题缩短/painter缓存就绪重绘
-- 剩余：Play Console 建app+IAP商品（pro_unlock ¥800暂定）+封测轨道12测试者（/play-release，手工）→ 商店素材（/store-kit）→ W2-4 增量（PDF和文标题字体、玉編み扇形跨格渲染增强）
+- **2026-11-01 收尾批**：§6三菜单+升级提示（TODO.md 工单全勾）／brick R8修复落地（jajambo-mobile 23814b9，重放验证全绿）／图标v2（纸底teal网格+陶土V——初版与schiessbuch撞脸，42图标对照目检后重做；+monochrome themed icon）／商店素材全套（31张：phone 6×3语+tab10 3×3语+feature×3+icon512，shots.html复刻管线+引擎实渲染图）／三语文案+privacy（已上线 macping.github.io/kagibari-designer/privacy.html）+RELEASE_KIT.md+fastlane metadata结构+changelogs／PDF和文标题=烘进导出图像（零字体体积）
+- 新坑两条（已回写处置）：PS1无BOM被嵌套PowerShell按GBK读、中文注释吞行（脚本改ASCII注释）；flutter_test Ahem豆腐进商店素材（chartLabelStyle 'ChartLabel'字体族+FontLoader装SDK Roboto）
+- 剩余：Play Console 手工三件（建app/问卷/IAP ¥800/封测轨道12人——照 store/RELEASE_KIT.md §8 按序）→ 真机60fps Profile 实测 → 宣传视频（可选，store-kit §4）→ W2-4 增量（玉編み扇形跨格渲染增强）
 
 ## D1（双动作，顺序执行）
 1. **D1①止损闸：真机装Hookchart实测30-60分**——逐项打分：円編み放射网格可用性/段别目数设定/記号回転吸着/导出质量。**体验达4★级→当场杀本案**（它只是没有评价，不代表烂），零沉没成本；体验确实≤3★级→记录具体缺陷清单=我方差异化任务书

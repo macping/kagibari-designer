@@ -2,9 +2,13 @@ import 'dart:io';
 
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:in_app_review/in_app_review.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/app_links.dart';
 import '../../../core/purchase/paywall_sheet.dart';
 import '../../../core/purchase/pro_entitlement.dart';
 import '../../../core/purchase/purchase_service.dart';
@@ -124,6 +128,31 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             const Divider(),
+            // 応援・連絡（mobile-day1 §6 標配三菜単）
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+              child: Text(
+                l10n.supportSection,
+                style: theme.textTheme.labelLarge
+                    ?.copyWith(color: theme.colorScheme.primary),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.star_outline),
+              title: Text(l10n.rateApp),
+              onTap: _rateApp,
+            ),
+            ListTile(
+              leading: const Icon(Icons.ios_share),
+              title: Text(l10n.shareApp),
+              onTap: () => Share.share(l10n.shareAppText),
+            ),
+            ListTile(
+              leading: const Icon(Icons.mail_outline),
+              title: Text(l10n.feedbackMenu),
+              onTap: () => _sendFeedback(context, l10n),
+            ),
+            const Divider(),
             ListTile(
               leading: const Icon(Icons.info_outline),
               title: Text(l10n.disclaimerTitle),
@@ -133,6 +162,42 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// 評価導線: ストアページ直開き（requestReview の配額を消費しない）。
+  Future<void> _rateApp() async {
+    try {
+      await InAppReview.instance.openStoreListing(appStoreId: kAppStoreId);
+    } on Exception {
+      // ストア不在（エミュレータ・審査前）は静黙
+    }
+  }
+
+  /// フィードバック: mailto に件名「[app名 vX.Y] ご意見」+環境行を預填。
+  Future<void> _sendFeedback(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
+    try {
+      final package = await PackageInfo.fromPlatform();
+      final locale = context.mounted
+          ? Localizations.localeOf(context).toString()
+          : '';
+      final subject = l10n.feedbackSubject(package.version);
+      final body = l10n.feedbackBody(
+        '${package.version} (${package.buildNumber})',
+        '${Platform.operatingSystem} ${Platform.operatingSystemVersion}',
+        locale,
+      );
+      final uri = Uri.parse(
+        'mailto:$kContactEmail'
+        '?subject=${Uri.encodeComponent(subject)}'
+        '&body=${Uri.encodeComponent(body)}',
+      );
+      await launchUrl(uri);
+    } on Exception {
+      // メーラー不在は静黙
+    }
   }
 
   Future<void> _exportBackup(

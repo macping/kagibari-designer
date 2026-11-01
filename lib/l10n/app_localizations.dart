@@ -585,6 +585,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pro unlocks unlimited rounds, all symbols, and high-res watermark-free export.'**
   String get onboarding3Body;
+
+  /// No description provided for @supportSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Support & contact'**
+  String get supportSection;
+
+  /// No description provided for @rateApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this app'**
+  String get rateApp;
+
+  /// No description provided for @shareApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell a friend'**
+  String get shareApp;
+
+  /// No description provided for @shareAppText.
+  ///
+  /// In en, this message translates to:
+  /// **'Crochet Chart Designer — sketch crochet charts right on your phone. No ads, fully offline.\nhttps://play.google.com/store/apps/details?id=com.jajambo.kagibari'**
+  String get shareAppText;
+
+  /// No description provided for @feedbackMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedbackMenu;
+
+  /// No description provided for @feedbackSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'[Crochet Chart Designer v{version}] Feedback'**
+  String feedbackSubject(String version);
+
+  /// No description provided for @feedbackBody.
+  ///
+  /// In en, this message translates to:
+  /// **'\n\n--- environment ---\nApp: {version}\nOS: {os}\nLanguage: {locale}'**
+  String feedbackBody(String version, String os, String locale);
+
+  /// No description provided for @updateAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version is available'**
+  String get updateAvailable;
+
+  /// No description provided for @updateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updateAction;
+
+  /// No description provided for @closeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get closeTooltip;
 }
 
 class _AppLocalizationsDelegate
