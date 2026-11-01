@@ -270,9 +270,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get supportSection => '応援・連絡';
 
   @override
-  String get rateApp => '評価する';
-
-  @override
   String get shareApp => '友達に教える';
 
   @override

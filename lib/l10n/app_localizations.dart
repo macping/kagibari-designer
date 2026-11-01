@@ -592,12 +592,6 @@ abstract class AppLocalizations {
   /// **'Support & contact'**
   String get supportSection;
 
-  /// No description provided for @rateApp.
-  ///
-  /// In en, this message translates to:
-  /// **'Rate this app'**
-  String get rateApp;
-
   /// No description provided for @shareApp.
   ///
   /// In en, this message translates to:

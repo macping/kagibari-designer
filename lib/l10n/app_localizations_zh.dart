@@ -269,9 +269,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get supportSection => '支持与反馈';
 
   @override
-  String get rateApp => '去评分';
-
-  @override
   String get shareApp => '推荐给朋友';
 
   @override

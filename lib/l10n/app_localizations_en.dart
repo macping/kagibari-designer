@@ -277,9 +277,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supportSection => 'Support & contact';
 
   @override
-  String get rateApp => 'Rate this app';
-
-  @override
   String get shareApp => 'Tell a friend';
 
   @override

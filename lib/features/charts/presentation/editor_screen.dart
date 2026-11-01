@@ -7,12 +7,14 @@
 /// - 2本指でズーム・パン（InteractiveViewer）
 library;
 
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/export/chart_exporter.dart';
+import '../../../core/review/review_prompter.dart';
 import '../../../core/purchase/paywall_sheet.dart';
 import '../../../core/purchase/pro_entitlement.dart';
 import '../../../core/purchase/purchase_service.dart';
@@ -712,6 +714,9 @@ class _ExportSheetState extends State<_ExportSheet> {
   bool _busy = false;
   String? _error;
 
+  /// 成功时刻=書き出し成功（§6 改订）。第3回で requestReview。
+  final ReviewPrompter _reviewPrompter = ReviewPrompter();
+
   Future<void> _run(Future<void> Function() action) async {
     final l10n = AppLocalizations.of(context)!;
     final navigator = Navigator.of(context);
@@ -721,6 +726,7 @@ class _ExportSheetState extends State<_ExportSheet> {
     });
     try {
       await action();
+      unawaited(_reviewPrompter.onExportSucceeded());
       if (mounted) navigator.pop();
     } on Exception {
       if (mounted) setState(() => _error = l10n.exportFailed);

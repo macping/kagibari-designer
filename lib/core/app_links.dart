@@ -12,7 +12,3 @@ const kPlayStoreUrl =
 
 /// Android の「更新」ボタン遷移先（Play アプリ直開き）。
 const kPlayMarketUri = 'market://details?id=$kAndroidPackageId';
-
-/// iOS App Store ID。iOS 配信解凍時に採番されたら記入する
-/// （空の間、iOS の評価導線は静黙フォールバック）。
-const kAppStoreId = '';

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -137,11 +136,8 @@ class SettingsScreen extends StatelessWidget {
                     ?.copyWith(color: theme.colorScheme.primary),
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.star_outline),
-              title: Text(l10n.rateApp),
-              onTap: _rateApp,
-            ),
+            // 評価导线は設定から撤去（2026-11-01 改订: 成功时刻の
+            // requestReview に一本化——ReviewPrompter 参照）
             ListTile(
               leading: const Icon(Icons.ios_share),
               title: Text(l10n.shareApp),
@@ -164,16 +160,8 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  /// 評価導線: ストアページ直開き（requestReview の配額を消費しない）。
-  Future<void> _rateApp() async {
-    try {
-      await InAppReview.instance.openStoreListing(appStoreId: kAppStoreId);
-    } on Exception {
-      // ストア不在（エミュレータ・審査前）は静黙
-    }
-  }
-
   /// フィードバック: mailto に件名「[app名 vX.Y] ご意見」+環境行を預填。
+  /// 宛先アドレスは UI に表示しない（mailto の宛先にだけ入る——2026-11-01 改订）。
   Future<void> _sendFeedback(
     BuildContext context,
     AppLocalizations l10n,

@@ -71,7 +71,7 @@ void main() {
     expect(isNewerVersion('1.0', '1.0.0'), isFalse);
   });
 
-  testWidgets('設定: 応援・連絡の三菜単が並ぶ（ja）', (tester) async {
+  testWidgets('設定: 応援・連絡は二菜単（評価tileなし・邮箱非表示）', (tester) async {
     await tester.pumpWidget(buildApp());
     await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.settings_outlined));
@@ -85,7 +85,10 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.text('応援・連絡'), findsOneWidget);
-    expect(find.text('評価する'), findsOneWidget);
     expect(find.text('友達に教える'), findsOneWidget);
+    // 2026-11-01 改订: 評価は成功时刻 requestReview に一本化、設定から撤去
+    expect(find.text('評価する'), findsNothing);
+    // 宛先アドレスは UI に出さない（mailto 内のみ）
+    expect(find.textContaining('@'), findsNothing);
   });
 }
