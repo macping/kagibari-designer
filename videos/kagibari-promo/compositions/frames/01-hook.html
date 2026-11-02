@@ -1,0 +1,230 @@
+﻿<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+  <style>
+      @font-face {
+        font-family: "Yu Mincho";
+        font-weight: 500;
+        src: local("Yu Mincho Demibold"), local("YuMincho-Demibold"),
+          local("Yu Mincho"), local("YuMincho");
+      }
+      @font-face {
+        font-family: "Yu Gothic UI";
+        font-weight: 500;
+        src: local("Yu Gothic UI Semibold"), local("Yu Gothic UI"),
+          local("YuGothicUI");
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-weight: 500;
+        src: local("JetBrains Mono Medium"), local("JetBrains Mono"),
+          local("JetBrainsMono-Medium"), local("Consolas");
+      }
+
+    /* ---- frame root (contract selector) ---- */
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      container-type: size;
+      overflow: hidden;
+    }
+    .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* ---- full-bleed ground: dark teal (editorial-forest green) ---- */
+    .hook01-ground {
+      background: #00695C;
+    }
+
+    /* ---- chrome: mono topbar (label left, counter right) + 2px hairline ---- */
+    .hook01-topbar {
+      position: absolute;
+      top: 56px;
+      left: 96px;
+      right: 96px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #DB9A77;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 26px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #FDFAF4;
+      visibility: hidden;
+    }
+
+    /* ---- kinetic-type stack (Yu Mincho display ramp, weight 500) ---- */
+    .hook01-anchor {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 424px; /* 中央やや上 — center line of the swap anchor */
+      height: 0;
+    }
+    .hook01-line {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-family: Georgia, "Yu Mincho", serif;
+      font-weight: 500;
+      color: #FDFAF4;
+      white-space: nowrap;
+      visibility: hidden;
+    }
+    /* beat 1 — 「あなたの有給、」 display class, ~45% of frame width */
+    .hook01-line1 {
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 5.8cqw;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+    }
+    /* beat 2 — 「あと何日？」 one step up, 3:1 dominance */
+    .hook01-line2 {
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10.5cqw;
+      line-height: 0.96;
+      letter-spacing: -0.02em;
+    }
+    /* the「？」alone takes the amber accent */
+    .hook01-mark {
+      color: #DB9A77;
+    }
+    /* beat 3 — 「……言えますか？」 lands small below, then dead still */
+    .hook01-line3 {
+      top: 640px;
+      font-size: 3.5cqw;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: #ADC7C0;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="01-hook"
+    data-start="0"
+    data-duration="4.4"
+    data-width="1920"
+    data-height="1080"
+  >
+    <!-- track 0: full-bleed ground clip (never painted on #root) -->
+    <div
+      class="clip hook01-ground"
+      data-start="0"
+      data-duration="4.4"
+      data-track-index="0"
+    ></div>
+
+    <!-- track 1: chrome + kinetic type -->
+    <div class="clip" data-start="0" data-duration="4.4" data-track-index="1">
+      <div class="hook01-topbar" id="hook01-topbar">
+        <span id="hook01-topbar-label"></span>
+        <span id="hook01-topbar-counter"></span>
+      </div>
+
+      <div class="hook01-anchor">
+        <div class="hook01-line hook01-line1" id="hook01-line1"></div>
+        <div class="hook01-line hook01-line2" id="hook01-line2">
+          <span id="hook01-line2-head"></span><span
+            class="hook01-mark"
+            id="hook01-line2-mark"
+          ></span>
+        </div>
+      </div>
+      <div class="hook01-line hook01-line3" id="hook01-line3"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      /* every visible on-screen string — localization swaps this object */
+      const STRINGS = {
+        topbarLabel: "KAGIBARI — CROCHET CHART",
+        topbarCounter: "01 / 06",
+        line1: "脑子里有个想钩的玩偶。",
+        line2Head: "编织图怎么画",
+        line2Mark: "？",
+        line3: "……纸上手画环形图，每次加针都得重来。",
+      };
+
+      const topbar = document.getElementById("hook01-topbar");
+      const line1 = document.getElementById("hook01-line1");
+      const line2 = document.getElementById("hook01-line2");
+      const line3 = document.getElementById("hook01-line3");
+
+      document.getElementById("hook01-topbar-label").textContent =
+        STRINGS.topbarLabel;
+      document.getElementById("hook01-topbar-counter").textContent =
+        STRINGS.topbarCounter;
+      line1.textContent = STRINGS.line1;
+      document.getElementById("hook01-line2-head").textContent =
+        STRINGS.line2Head;
+      document.getElementById("hook01-line2-mark").textContent =
+        STRINGS.line2Mark;
+      line3.textContent = STRINGS.line3;
+
+      /* discrete-text-sequence — whole-line states swap by instant hard cut
+         at time thresholds; a reverse search picks the latest passed state.
+         Beat map:
+           0.00  bare teal ground (hard cut in)
+           0.12  chrome topbar stamps on
+           0.30  Scene 1 — 「あなたの有給、」 lands for one beat
+           1.10  Scene 2 — hard-cut word-swap →「あと何日？」(？ amber)
+           2.20  Scene 3 — 0.4s stillness…
+           2.60  …then「……言えますか？」cuts in below; dead-still hold to 4.0 */
+      const BEATS = [
+        { t: 0.0, chrome: 0, s1: 0, s2: 0, s3: 0 },
+        { t: 0.12, chrome: 1, s1: 0, s2: 0, s3: 0 },
+        { t: 0.3, chrome: 1, s1: 1, s2: 0, s3: 0 },
+        { t: 1.1, chrome: 1, s1: 0, s2: 1, s3: 0 },
+        { t: 2.6, chrome: 1, s1: 0, s2: 1, s3: 1 },
+      ];
+
+      function beatAt(time) {
+        for (let i = BEATS.length - 1; i >= 0; i--) {
+          if (time >= BEATS[i].t) return BEATS[i];
+        }
+        return BEATS[0];
+      }
+
+      /* discrete jumps must be INSTANT — direct visibility writes, no tween */
+      function applyBeat(time) {
+        const s = beatAt(time);
+        topbar.style.visibility = s.chrome ? "visible" : "hidden";
+        line1.style.visibility = s.s1 ? "visible" : "hidden";
+        line2.style.visibility = s.s2 ? "visible" : "hidden";
+        line3.style.visibility = s.s3 ? "visible" : "hidden";
+      }
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: 4,
+          duration: 4,
+          ease: "none",
+          onUpdate: function () {
+            applyBeat(driver.t);
+          },
+        },
+        0,
+      );
+
+      applyBeat(0);
+      window.__timelines["01-hook"] = tl;
+    })();
+  </script>
+</template>

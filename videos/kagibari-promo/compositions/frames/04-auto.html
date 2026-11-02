@@ -1,0 +1,356 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+  <style>
+      @font-face {
+        font-family: "Yu Mincho";
+        font-weight: 500;
+        src: local("Yu Mincho Demibold"), local("YuMincho-Demibold"),
+          local("Yu Mincho"), local("YuMincho");
+      }
+      @font-face {
+        font-family: "Yu Gothic UI";
+        font-weight: 500;
+        src: local("Yu Gothic UI Semibold"), local("Yu Gothic UI"),
+          local("YuGothicUI");
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-weight: 500;
+        src: local("JetBrains Mono Medium"), local("JetBrains Mono"),
+          local("JetBrainsMono-Medium"), local("Consolas");
+      }
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      --f04-green: #00695C;
+      --f04-green-deep: #0B3B34;
+      --f04-green-lite: #2E8578;
+      --f04-pink: #2E8578;
+      --f04-amber: #C96F4A;
+      --f04-cream: #FDFAF4;
+      --f04-cream-2: #ADC7C0;
+      --f04-ink: #07211C;
+      --f04-font-display: Georgia, "Yu Mincho", serif;
+      --f04-font-body: "Yu Gothic UI", sans-serif;
+      --f04-font-mono: "JetBrains Mono", monospace;
+    }
+
+    .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* full-bleed ground — dedicated clip, never painted on #root */
+    .f04-bg {
+      background: var(--f04-green);
+    }
+
+    /* ── chrome ── */
+    .f04-topbar {
+      position: absolute;
+      top: 52px;
+      left: 760px; /* デバイス(180-690)を避ける — occlusion 修正 */
+      right: 96px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--f04-font-mono);
+      font-weight: 500;
+      font-size: 26px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--f04-cream-2);
+    }
+
+    /* ── accent block behind the device (flat, 8px radius, no shadow) ── */
+    .f04-accent-block {
+      position: absolute;
+      left: 250px;
+      top: 112px;
+      width: 440px;
+      height: 500px;
+      background: var(--f04-pink);
+      border-radius: 8px;
+    }
+
+    /* ── device mockup (hero, left 40%) ── */
+    .f04-device {
+      position: absolute;
+      left: 180px;
+      top: 62px;
+      width: 380px;
+      padding: 14px;
+      background: var(--f04-ink);
+      border-radius: 44px;
+      border: 2px solid var(--f04-green-deep);
+    }
+    .f04-device img {
+      display: block;
+      width: 100%;
+      border-radius: 32px;
+    }
+
+    /* ── right column (60%) ── */
+    .f04-col {
+      position: absolute;
+      left: 860px;
+      width: 940px;
+      top: 0;
+    }
+
+    .f04-headline {
+      position: absolute;
+      top: 246px;
+      left: 0;
+      font-family: var(--f04-font-display);
+      font-weight: 500;
+      font-size: 112px;
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: var(--f04-cream);
+    }
+    .f04-headline .f04-hl-line {
+      display: block;
+    }
+    .f04-headline .f04-w {
+      display: inline-block;
+      will-change: transform;
+    }
+    .f04-headline .f04-w-accent {
+      color: var(--f04-amber);
+    }
+
+    .f04-sub {
+      position: absolute;
+      top: 618px;
+      left: 4px;
+      font-family: var(--f04-font-display);
+      font-weight: 500;
+      font-size: 46px;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--f04-cream);
+      white-space: nowrap;
+    }
+    .f04-sub .f04-chunk {
+      display: inline-block;
+      margin-right: 0.35em; /* en/zh のチャンク間スペース（ja 句読点でも害なし） */
+    }
+
+    /* highlight-mode marker sweep (css-marker-patterns · mode 1) */
+    .f04-mh-wrap {
+      position: relative;
+      display: inline;
+    }
+    .f04-mh-bar {
+      position: absolute;
+      inset: -2px -10px -4px;
+      background: var(--f04-amber);
+      transform: scaleX(0);
+      transform-origin: left center;
+      border-radius: 3px;
+      z-index: 0;
+    }
+    .f04-mh-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .f04-note-rule {
+      position: absolute;
+      top: 728px;
+      left: 6px;
+      width: 470px;
+      height: 2px;
+      background: var(--f04-pink);
+      transform-origin: left center;
+    }
+    .f04-note {
+      position: absolute;
+      top: 752px;
+      left: 6px;
+      font-family: var(--f04-font-body);
+      font-weight: 400;
+      font-size: 30px;
+      line-height: 1.38;
+      color: var(--f04-cream-2);
+    }
+  </style>
+
+  <div id="root" data-composition-id="04-auto" data-duration="5.5" data-width="1920" data-height="1080">
+    <!-- full-bleed ground -->
+    <div class="clip f04-bg" data-start="0" data-duration="5.5" data-track-index="0"></div>
+
+    <!-- content layer -->
+    <div class="clip" data-start="0" data-duration="5.5" data-track-index="1">
+      <div class="f04-topbar" id="f04-topbar">
+        <span id="f04-topbar-label"></span>
+        <span id="f04-topbar-counter"></span>
+      </div>
+
+      <div class="f04-accent-block" id="f04-accent"></div>
+
+      <div class="f04-device" id="f04-device">
+        <img id="f04-screen" alt="" />
+      </div>
+
+      <div class="f04-col">
+        <h1 class="f04-headline" id="f04-headline"></h1>
+        <p class="f04-sub" id="f04-sub"></p>
+        <div class="f04-note-rule" id="f04-note-rule"></div>
+        <p class="f04-note" id="f04-note"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      /* every visible on-screen string lives here (localization contract) */
+      const STRINGS = {
+        topbarLabel: "导出",
+        topbarCounter: "04",
+        headlineLines: [
+          [
+            { text: "画好的编织图，", accent: false },
+          ],
+          [{ text: "直接PNG/PDF。", accent: true }],
+        ],
+        subChunks: [
+          "高清PNG、",
+          "A4 PDF、",
+          "随手分享",
+        ],
+        subHighlightIndex: 1,
+        note: "可打印可分享。备份换机也安心。",
+      };
+      const UI_SRC = "assets/ui_zh_4.png";
+
+      /* ── build DOM from STRINGS ── */
+      document.getElementById("f04-topbar-label").textContent = STRINGS.topbarLabel;
+      document.getElementById("f04-topbar-counter").textContent = STRINGS.topbarCounter;
+      document.getElementById("f04-screen").src = UI_SRC;
+
+      const headlineEl = document.getElementById("f04-headline");
+      STRINGS.headlineLines.forEach(function (line) {
+        const lineEl = document.createElement("span");
+        lineEl.className = "f04-hl-line";
+        line.forEach(function (word) {
+          const w = document.createElement("span");
+          w.className = "f04-w" + (word.accent ? " f04-w-accent" : "");
+          w.textContent = word.text;
+          lineEl.appendChild(w);
+        });
+        headlineEl.appendChild(lineEl);
+      });
+
+      const subEl = document.getElementById("f04-sub");
+      let mhBar = null;
+      let mhText = null;
+      STRINGS.subChunks.forEach(function (chunk, i) {
+        const c = document.createElement("span");
+        c.className = "f04-chunk";
+        if (i === STRINGS.subHighlightIndex) {
+          const wrap = document.createElement("span");
+          wrap.className = "f04-mh-wrap";
+          mhBar = document.createElement("span");
+          mhBar.className = "f04-mh-bar";
+          mhText = document.createElement("span");
+          mhText.className = "f04-mh-text";
+          mhText.textContent = chunk;
+          wrap.appendChild(mhBar);
+          wrap.appendChild(mhText);
+          c.appendChild(wrap);
+        } else {
+          c.textContent = chunk;
+        }
+        subEl.appendChild(c);
+      });
+
+      document.getElementById("f04-note").textContent = STRINGS.note;
+
+      /* ── timeline ── */
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const device = document.getElementById("f04-device");
+      const accent = document.getElementById("f04-accent");
+      const topbar = document.getElementById("f04-topbar");
+      const words = headlineEl.querySelectorAll(".f04-w");
+      const chunks = subEl.querySelectorAll(".f04-chunk");
+      const noteRule = document.getElementById("f04-note-rule");
+      const note = document.getElementById("f04-note");
+
+      /* Scene 1 (0.0–1.2s) — spring-pop entrance, smooth settle, -6° tilt held */
+      tl.fromTo(
+        topbar,
+        { opacity: 0, y: -16 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
+        0.08
+      );
+      tl.fromTo(
+        accent,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.7, ease: "power3.out" },
+        0.14
+      );
+      tl.fromTo(
+        device,
+        { y: 640, rotation: -6, opacity: 1 },
+        { y: 0, rotation: -6, duration: 1.0, ease: "power3.out" },
+        0.05
+      );
+
+      /* Scene 2 (1.2–2.4s) — per-word staggered reveal of the headline */
+      tl.fromTo(
+        words,
+        { y: 64, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: "power3.out", stagger: 0.16 },
+        1.2
+      );
+
+      /* Scene 3 (2.4–3.8s) — sub line reveals by 文節, then one marker sweep */
+      tl.fromTo(
+        chunks,
+        { y: 28, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power2.out", stagger: 0.22 },
+        2.4
+      );
+      tl.fromTo(
+        mhBar,
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.5, ease: "power2.out" },
+        3.3
+      );
+      tl.fromTo(
+        mhText,
+        { color: "#FDFAF4" },
+        { color: "#0B3B34", duration: 0.4, ease: "power1.inOut" },
+        3.32
+      );
+
+      /* Scene 4 (3.8–5.0s) — small line enters; held with subtle jitter only */
+      tl.fromTo(
+        noteRule,
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.4, ease: "power2.out" },
+        3.8
+      );
+      tl.fromTo(
+        note,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
+        3.92
+      );
+      tl.to(device, { y: -6, duration: 0.55, ease: "sine.inOut" }, 3.9);
+      tl.to(device, { y: 0, duration: 0.55, ease: "sine.inOut" }, 4.45);
+
+      window.__timelines["04-auto"] = tl;
+    })();
+  </script>
+</template>

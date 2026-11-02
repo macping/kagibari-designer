@@ -1,0 +1,429 @@
+<template>
+  <style>
+      @font-face {
+        font-family: "Yu Mincho";
+        font-weight: 500;
+        src: local("Yu Mincho Demibold"), local("YuMincho-Demibold"),
+          local("Yu Mincho"), local("YuMincho");
+      }
+      @font-face {
+        font-family: "Yu Gothic UI";
+        font-weight: 500;
+        src: local("Yu Gothic UI Semibold"), local("Yu Gothic UI"),
+          local("YuGothicUI");
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-weight: 500;
+        src: local("JetBrains Mono Medium"), local("JetBrains Mono"),
+          local("JetBrainsMono-Medium"), local("Consolas");
+      }
+
+
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Yu Gothic UI", sans-serif;
+    }
+
+    .f03-stage {
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 46%;
+    }
+
+    .f03-stage .clip {
+      position: absolute;
+    }
+
+    /* ---- ground (full-bleed clip, never on #root) ---- */
+    .f03-stage .f03-bg {
+      inset: 0;
+      background: #00695C;
+    }
+
+    /* ---- topbar chrome ---- */
+    .f03-topbar {
+      inset: auto;
+      top: 4.5cqh;
+      left: 5cqw;
+      right: 5cqw;
+      height: 3.5cqh;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1.25cqw;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #ADC7C0;
+    }
+
+    /* ---- headline (Scene 1) ---- */
+    .f03-headline {
+      inset: auto;
+      left: 5cqw;
+      top: 11cqh;
+      width: 55cqw;
+    }
+    .f03-h-a {
+      font-family: Georgia, "Yu Mincho", serif;
+      font-weight: 500;
+      font-size: 4.4cqw;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #FDFAF4;
+    }
+    .f03-h-b {
+      margin-top: 1.1cqw;
+      font-family: Georgia, "Yu Mincho", serif;
+      font-weight: 500;
+      font-size: 7.3cqw;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      color: #FDFAF4;
+      white-space: nowrap;
+    }
+    .f03-h-b .f03-h-accent {
+      color: #C96F4A;
+    }
+
+    /* ---- KPI countdown (Scene 2) ---- */
+    .f03-kpi {
+      inset: auto;
+      left: 5cqw;
+      top: 40cqh;
+      width: 55cqw;
+    }
+    .f03-kpi-inner {
+      transform-origin: left center;
+      width: fit-content;
+    }
+    .f03-kpi-tag {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1.25cqw;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #ADC7C0;
+      margin-bottom: 1cqh;
+    }
+    .f03-kpi-rule {
+      width: 32cqw;
+      height: 2px;
+      background: #C96F4A;
+      transform-origin: left center;
+      margin-bottom: 2.2cqh;
+    }
+    .f03-glowwrap {
+      display: block;
+      width: fit-content;
+      transform-origin: left center;
+    }
+    .f03-counter-row {
+      display: flex;
+      align-items: baseline;
+      font-family: Georgia, "Yu Mincho", serif;
+      font-weight: 500;
+      color: #C96F4A;
+      line-height: 0.92;
+    }
+    .f03-counter-prefix {
+      font-size: 6.4cqw;
+      letter-spacing: -0.01em;
+      margin-right: 0.3cqw;
+    }
+    .f03-num {
+      font-size: 9.6cqw;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      display: inline-block;
+      min-width: 6cqw; /* fixed box — "2,101" 5 chars, no layout shift while counting */
+      text-align: center;
+    }
+    .f03-counter-suffix {
+      font-size: 4.2cqw;
+      letter-spacing: -0.01em;
+      margin-left: 0.4cqw;
+      display: inline-block;
+    }
+
+    /* ---- decreasing progress bar + notify line (Scene 3) ---- */
+    .f03-notify {
+      inset: auto;
+      left: 5cqw;
+      top: 67cqh;
+      width: 55cqw;
+    }
+    .f03-track {
+      width: 30cqw;
+      height: 10px;
+      border-radius: 6px;
+      background: #2E8578;
+      overflow: hidden;
+    }
+    .f03-fill {
+      width: 100%; /* required — a zero-width fill scaled by anything is still invisible */
+      height: 100%;
+      background: #C96F4A;
+      transform-origin: left center;
+      border-radius: 6px;
+    }
+    .f03-notify-line {
+      margin-top: 2.4cqh;
+      display: flex;
+      gap: 0.55cqw;
+      font-family: Georgia, "Yu Mincho", serif;
+      font-weight: 500;
+      font-size: 2.9cqw;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: #FDFAF4;
+      white-space: nowrap;
+    }
+    .f03-w {
+      display: inline-block;
+    }
+    .f03-w-accent {
+      color: #C96F4A;
+    }
+
+    /* ---- evidence board (right 45%, Scene 2) ---- */
+    .f03-ui {
+      inset: auto;
+      left: 66cqw;
+      top: 7cqh;
+      width: 20cqw;
+    }
+    .f03-ui-board {
+      width: 100%;
+      transform-origin: 50% 50%;
+    }
+    .f03-ui-board img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 2px solid #ADC7C0;
+      filter: brightness(0.65); /* dim ~35% — supporting evidence, not the hero */
+    }
+  </style>
+
+  <div id="root" data-composition-id="03-expiry" data-width="1920" data-height="1080" data-duration="5.5">
+    <div class="f03-stage">
+      <!-- ground -->
+      <div class="f03-bg clip" data-start="0" data-duration="5.5" data-track-index="0"></div>
+
+      <!-- Scene 1 — kinetic beat slam headline -->
+      <div class="f03-headline clip" data-start="0" data-duration="5.5" data-track-index="1">
+        <div class="f03-h-a" id="f03-h-a"></div>
+        <div class="f03-h-b" id="f03-h-b"></div>
+      </div>
+
+      <!-- Scene 2 — amber countdown (counting-dynamic-scale, inverted 60 → 34) -->
+      <div class="f03-kpi clip" data-start="1.25" data-duration="4.25" data-track-index="3">
+        <div class="f03-kpi-inner" id="f03-kpi-inner">
+          <div class="f03-kpi-tag" id="f03-kpi-tag"></div>
+          <div class="f03-kpi-rule" id="f03-kpi-rule"></div>
+          <div class="f03-glowwrap" id="f03-glowwrap">
+            <div class="f03-counter-row">
+              <span class="f03-counter-prefix" id="f03-prefix"></span><span class="f03-num" id="f03-num"></span><span class="f03-counter-suffix" id="f03-suffix"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 2 — real UI evidence board, tilted 4deg, dimmed -->
+      <div class="f03-ui clip" data-start="1.25" data-duration="4.25" data-track-index="2">
+        <div class="f03-ui-board" id="f03-ui-board">
+          <img id="f03-ui-img" alt="" />
+        </div>
+      </div>
+
+      <!-- Scene 3 — shrinking progress bar + per-word notify line -->
+      <div class="f03-notify clip" data-start="2.95" data-duration="2.55" data-track-index="4">
+        <div class="f03-track"><div class="f03-fill" id="f03-fill"></div></div>
+        <div class="f03-notify-line" id="f03-notify-line"></div>
+      </div>
+
+      <!-- chrome -->
+      <div class="f03-topbar clip" data-start="0" data-duration="5.5" data-track-index="5">
+        <span id="f03-topbar-left"></span>
+        <span id="f03-topbar-right"></span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      // ---- localization: every visible string lives here ----
+      const STRINGS = {
+        topbarLeft: "环形编辑",
+        topbarRight: "03 / 06",
+        headlineA: "想钩的玩偶——",
+        headlineB1: "点一点，",
+        headlineB2: "成图。",
+        kpiTag: "短针·长针·玉编·扇形·内外钩",
+        counterPrefix: "钩针记号 ",
+        counterUnit: "种",
+        notifyWords: ["记号自动吸附。", "方向沿着段，", "自动旋转。"],
+      };
+      const UI_SRC = "assets/ui_zh_3.png";
+      const COUNT_FROM = 0; // 0種 から
+      const COUNT_TO = 32; // かぎ針記号32種（lib/.../symbol_registry.dart の実数）
+
+      // ---- inject strings into the DOM ----
+      const $ = (id) => document.getElementById(id);
+      $("f03-topbar-left").textContent = STRINGS.topbarLeft;
+      $("f03-topbar-right").textContent = STRINGS.topbarRight;
+      $("f03-h-a").textContent = STRINGS.headlineA;
+      const hB = $("f03-h-b");
+      const hB1 = document.createElement("span");
+      hB1.textContent = STRINGS.headlineB1;
+      const hB2 = document.createElement("span");
+      hB2.className = "f03-h-accent";
+      hB2.textContent = STRINGS.headlineB2;
+      hB.appendChild(hB1);
+      hB.appendChild(hB2);
+      $("f03-kpi-tag").textContent = STRINGS.kpiTag;
+      $("f03-prefix").textContent = STRINGS.counterPrefix;
+      $("f03-suffix").textContent = STRINGS.counterUnit;
+      const numEl = $("f03-num");
+      const fmt = (v) => String(Math.round(v)); // T等級は整数表示
+      numEl.textContent = fmt(COUNT_FROM);
+      $("f03-ui-img").src = UI_SRC;
+      const line = $("f03-notify-line");
+      STRINGS.notifyWords.forEach(function (w, i) {
+        const s = document.createElement("span");
+        s.className = "f03-w" + (i === STRINGS.notifyWords.length - 1 ? " f03-w-accent" : "");
+        s.textContent = w;
+        line.appendChild(s);
+      });
+
+      // ---- timeline ----
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const SCENE_DURATION = 5;
+
+      // macro camera: very slow continuous push-in underneath the whole shot
+      tl.fromTo(".f03-stage", { scale: 1 }, { scale: 1.03, duration: SCENE_DURATION, ease: "none" }, 0);
+
+      // chrome settles first
+      tl.fromTo(".f03-topbar", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.05);
+
+      // ---- Scene 1 (0.0–1.3s): kinetic-beat-slam, one tempo grid, distinct entrances ----
+      const PULSE = 0.55;
+      const BEATS = [0.12 + PULSE * 0, 0.12 + PULSE * 1]; // [0.12, 0.67]
+      tl.fromTo(
+        "#f03-h-a",
+        { scale: 1.55, filter: "blur(14px)", opacity: 0 },
+        { scale: 1, filter: "blur(0px)", opacity: 1, duration: 0.45, ease: "power4.out" },
+        BEATS[0]
+      );
+      tl.fromTo(
+        "#f03-h-b",
+        { x: -300, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, ease: "expo.out" },
+        BEATS[1]
+      );
+
+      // ---- Scene 2 (1.3–3.0s): countdown 60 → 34, value + scale share ease (counting-dynamic-scale) ----
+      const COUNT_AT = 1.3;
+      const COUNT_DUR = 1.5;
+      const COUNT_EASE = "power3.out";
+      const state = { value: COUNT_FROM };
+      tl.to(
+        state,
+        {
+          value: COUNT_TO,
+          duration: COUNT_DUR,
+          ease: COUNT_EASE,
+          onUpdate: function () {
+            numEl.textContent = fmt(state.value); // O(1): text only
+          },
+        },
+        COUNT_AT
+      );
+      // grows one size while counting down — transform scale only, never font-size
+      tl.fromTo(
+        "#f03-kpi-inner",
+        { scale: 0.74 },
+        { scale: 1, duration: COUNT_DUR, ease: COUNT_EASE },
+        COUNT_AT
+      );
+      tl.fromTo("#f03-kpi-inner", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, COUNT_AT);
+      // tag + accent rule arrive early (label before the count peaks)
+      tl.fromTo("#f03-kpi-tag", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, COUNT_AT + 0.05);
+      tl.fromTo("#f03-kpi-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out" }, COUNT_AT + 0.05);
+      // suffix 「日」 lands AFTER the count — the number gets its own beat
+      tl.fromTo(
+        "#f03-suffix",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        COUNT_AT + COUNT_DUR
+      );
+
+      // evidence board: spring-pop entrance with smooth settle, tilt held at 4deg throughout
+      tl.fromTo(
+        "#f03-ui-board",
+        { y: 70, scale: 0.92, opacity: 0, rotation: 4 },
+        { y: 0, scale: 1, opacity: 1, rotation: 4, duration: 0.8, ease: "power3.out" },
+        COUNT_AT
+      );
+
+      // ---- Scene 3 (3.0–4.2s): progress bar grows UP (減額が消えて満額へ) ----
+      const REDUCED = COUNT_FROM / COUNT_TO; // 1585/2101
+      tl.fromTo(
+        "#f03-fill",
+        { scaleX: REDUCED },
+        { scaleX: 1, duration: 0.85, ease: "power2.out" },
+        3.0
+      );
+      tl.fromTo(
+        ".f03-w",
+        { opacity: 0, y: 34 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "circ.out", stagger: 0.12 },
+        3.35
+      );
+
+      // ---- Scene 4 (4.2–5.0s): asr-keyword-glow on 「あと34日」 — one linear driver, full scene sweep ----
+      const ATTACK_DUR = 0.15;
+      const RELEASE = 0.35;
+      const REST_LEVEL = 0.22;
+      const MAX_BLUR = 28;
+      const MAX_SCALE_BOOST = 0.05;
+      const GLOW = { start: 4.3, end: 4.62 };
+      const glowEl = $("f03-glowwrap");
+      function envelope(time, start, end) {
+        if (time < start) return 0;
+        if (time < end) return Math.min((time - start) / ATTACK_DUR, 1);
+        const releaseEnd = end + RELEASE;
+        if (time < releaseEnd) return 1 - ((time - end) / RELEASE) * (1 - REST_LEVEL);
+        return REST_LEVEL;
+      }
+      const driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: SCENE_DURATION,
+          duration: SCENE_DURATION,
+          ease: "none", // linear — t maps 1:1 to scene time
+          onUpdate: function () {
+            const env = envelope(driver.t, GLOW.start, GLOW.end);
+            glowEl.style.textShadow =
+              "0 0 " + (MAX_BLUR * env).toFixed(2) + "px rgba(201, 111, 74, " + (0.85 * env).toFixed(3) + ")";
+            glowEl.style.transform = "scale(" + (1 + MAX_SCALE_BOOST * env).toFixed(4) + ")";
+          },
+        },
+        0
+      );
+
+      window.__timelines["03-expiry"] = tl;
+    })();
+  </script>
+</template>

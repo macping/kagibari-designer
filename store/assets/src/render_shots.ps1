@@ -25,6 +25,11 @@ foreach ($lang in $langs) {
       -Out "$assets\tab10_${lang}_$n.png" -Width 1600 -Height 2560 -AllowFileAccess -VirtualTimeBudgetMs 6000
     Write-Output "shot $lang tab10 $n ok"
   }
+  foreach ($n in 1..3) {
+    & $shotTool -Url "file:///D:/JAJAMBO/kagibari-designer/store/assets/src/shots.html?lang=$lang&shot=$n&dev=tab7" `
+      -Out "$assets\tab7_${lang}_$n.png" -Width 1200 -Height 1920 -AllowFileAccess -VirtualTimeBudgetMs 6000
+    Write-Output "shot $lang tab7 $n ok"
+  }
   & $shotTool -Url "file:///D:/JAJAMBO/kagibari-designer/store/assets/src/feature.html?lang=$lang" `
     -Out "$assets\feature_$lang.png" -Width 1024 -Height 500 -AllowFileAccess -VirtualTimeBudgetMs 6000
   Write-Output "feature $lang ok"

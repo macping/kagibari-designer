@@ -1,0 +1,308 @@
+﻿<template>
+  <style>
+    /* 02-intro — プロダクト登場 (Editorial Forest / green gravity ground)
+       NOTE: no font files ship with this project (assets/fonts is absent), so only
+       generic families are used — never a named font without a shipped @font-face.
+       Ids/classes are letter-led (f02-intro-) because CSS selectors cannot start
+       with a digit; data-composition-id / timeline key stay "02-intro" verbatim. */
+    @font-face {
+      font-family: "Yu Mincho";
+      font-weight: 500;
+      src: local("Yu Mincho Demibold"), local("YuMincho-Demibold"),
+        local("Yu Mincho"), local("YuMincho");
+    }
+    @font-face {
+      font-family: "Yu Gothic UI";
+      font-weight: 500;
+      src: local("Yu Gothic UI Semibold"), local("Yu Gothic UI"),
+        local("YuGothicUI");
+    }
+    @font-face {
+      font-family: "JetBrains Mono";
+      font-weight: 500;
+      src: local("JetBrains Mono Medium"), local("JetBrains Mono"),
+        local("JetBrainsMono-Medium"), local("Consolas");
+    }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+    }
+    #root .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* ── depth layer 1: ground ── */
+    #f02-intro-bg {
+      background: #00695C;
+    }
+
+    /* ── depth layer 2: ambient glow (behind device) ── */
+    #f02-intro-glowOrb {
+      position: absolute;
+      left: 1060px;
+      top: 45px;
+      width: 860px;
+      height: 860px;
+      border-radius: 50%;
+      background: radial-gradient(
+        closest-side,
+        rgba(201, 111, 74, 0.9) 0%,
+        rgba(201, 111, 74, 0.35) 42%,
+        rgba(201, 111, 74, 0) 72%
+      );
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    /* ── depth layer 3: device (hero, right 40%) ── */
+    #f02-intro-deviceRig {
+      position: absolute;
+      left: 1291px; /* center x ≈ 1490 */
+      top: 90px;
+      width: 397px;
+      height: 770px;
+      will-change: transform, opacity;
+    }
+    .f02i-device-tilt {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-6deg); /* static CSS transform — GSAP only touches the rig */
+      background: #07211C;
+      border-radius: 48px;
+      padding: 12px;
+    }
+    .f02i-device-screen {
+      display: block;
+      width: 373px;
+      height: 746px;
+      object-fit: cover;
+      border-radius: 36px;
+    }
+
+    /* ── layer 4: copy (topbar + left column) ── */
+    #f02-intro-topbar {
+      position: absolute;
+      left: 96px;
+      right: 96px;
+      top: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    #f02-intro-topbarLabel,
+    #f02-intro-topbarCounter {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: #ADC7C0;
+      will-change: transform, opacity;
+    }
+    #f02-intro-topbarLabel {
+      font-size: 26px;
+      letter-spacing: 0.18em;
+    }
+    #f02-intro-topbarCounter {
+      font-size: 24px;
+      letter-spacing: 0.14em;
+    }
+
+    #f02-intro-col {
+      position: absolute;
+      left: 96px;
+      top: 330px;
+      width: 880px;
+    }
+    #f02-intro-rule {
+      width: 140px;
+      height: 2px;
+      background: #DB9A77;
+      transform-origin: left center;
+      will-change: transform;
+    }
+    #f02-intro-headline {
+      margin-top: 42px;
+      font-family: Georgia, "Yu Mincho", serif;
+      font-weight: 500;
+      font-size: 8.6cqw; /* ≈ 165px — Calculator fits 880px col; wraps to 2 lines */
+      line-height: 1.18; /* 折行時の行間 — 1.04 だと unit の bbox が重なり lint error */
+      letter-spacing: -0.02em;
+      color: #FDFAF4;
+    }
+    #f02-intro-headline .f02i-hl-unit {
+      display: inline-block;
+      will-change: transform, opacity;
+    }
+    #f02-intro-headline .f02i-hl-unit.f02i-word-gap {
+      margin-right: 0.24em;
+    }
+    #f02-intro-sub {
+      margin-top: 54px;
+      font-family: "Yu Gothic UI", sans-serif;
+      font-weight: 400;
+      font-size: 2.4cqw; /* ≈ 46px */
+      line-height: 1.4;
+      color: #FDFAF4;
+      white-space: nowrap;
+    }
+    #f02-intro-sub .f02i-sub-chunk {
+      display: inline-block;
+      will-change: transform, opacity;
+    }
+    #f02-intro-sub .f02i-sub-chunk.f02i-accent {
+      color: #DB9A77;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="02-intro"
+    data-width="1920"
+    data-height="1080"
+    data-duration="5.5"
+  >
+    <!-- depth layer 1: full-bleed ground (never on #root) -->
+    <div id="f02-intro-bg" class="clip" data-start="0" data-duration="5.5" data-track-index="0"></div>
+
+    <!-- depth layer 2: ambient glow bloom behind the device -->
+    <div id="f02-intro-glow" class="clip" data-start="0" data-duration="5.5" data-track-index="1">
+      <div id="f02-intro-glowOrb"></div>
+    </div>
+
+    <!-- depth layer 3: hero device, 6° tilt, right 40% -->
+    <div id="f02-intro-device" class="clip" data-start="0" data-duration="5.5" data-track-index="2">
+      <div id="f02-intro-deviceRig">
+        <div class="f02i-device-tilt">
+          <img id="f02-intro-ui" class="f02i-device-screen" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- copy: mono topbar chrome + left editorial column -->
+    <div id="f02-intro-copy" class="clip" data-start="0" data-duration="5.5" data-track-index="3">
+      <div id="f02-intro-topbar">
+        <div id="f02-intro-topbarLabel"></div>
+        <div id="f02-intro-topbarCounter"></div>
+      </div>
+      <div id="f02-intro-col">
+        <div id="f02-intro-rule"></div>
+        <div id="f02-intro-headline"></div>
+        <div id="f02-intro-sub"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      // ── localization: every visible string lives here; re-renders swap this block ──
+      const STRINGS = {
+        topbarLabel: "KAGIBARI — CROCHET CHART",
+        topbarCounter: "02",
+        headline: "钩针编织图设计",
+        sub: ["放上记号就成图，", "环形与方格——", "全部在设备里。"],
+      };
+      const UI_SRC = "assets/ui_zh_2.png";
+
+      const $ = (id) => document.getElementById(id);
+
+      // inject strings (synchronous, before the timeline is built)
+      $("f02-intro-ui").src = UI_SRC;
+      $("f02-intro-topbarLabel").textContent = STRINGS.topbarLabel;
+      $("f02-intro-topbarCounter").textContent = STRINGS.topbarCounter;
+
+      // headline units: latin → per word, CJK (no spaces) → per character
+      const headlineEl = $("f02-intro-headline");
+      const wordMode = STRINGS.headline.includes(" ");
+      const units = wordMode ? STRINGS.headline.split(" ") : Array.from(STRINGS.headline);
+      const unitEls = units.map((u, i) => {
+        const s = document.createElement("span");
+        s.className = "f02i-hl-unit" + (wordMode && i < units.length - 1 ? " f02i-word-gap" : "");
+        s.textContent = u;
+        headlineEl.appendChild(s);
+        return s;
+      });
+
+      // sub copy: three sequential chunks; the last carries the amber emphasis
+      const subEl = $("f02-intro-sub");
+      const chunkEls = STRINGS.sub.map((c, i) => {
+        const s = document.createElement("span");
+        s.className = "f02i-sub-chunk" + (i === STRINGS.sub.length - 1 ? " f02i-accent" : "");
+        s.textContent = c;
+        subEl.appendChild(s);
+        return s;
+      });
+
+      // ── timeline ──
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const rig = $("f02-intro-deviceRig");
+
+      // Scene 1 (0.0–1.2s): device rises from below — spring-pop entrance, smooth
+      // power3.out long-tail settle, no overshoot; the 6° tilt lives on the CSS child.
+      tl.fromTo(
+        rig,
+        { y: 430, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 1.1, ease: "power3.out" },
+        0.05
+      );
+
+      // Blueprint signature (kept slight per Adapt note): a gentle camera push on the
+      // held hero after it settles, decelerating to rest exactly at the Scene 4 hold.
+      tl.to(rig, { scale: 1.03, duration: 2.45, ease: "power1.out" }, 1.35);
+
+      // Scene 2 (1.2–2.6s): mono chrome lands, then the display headline
+      // arrives unit-by-unit (per-word / per-char staggered reveal).
+      tl.fromTo(
+        $("f02-intro-topbarLabel"),
+        { y: 26, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
+        1.22
+      );
+      tl.fromTo(
+        $("f02-intro-topbarCounter"),
+        { y: 26, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
+        1.34
+      );
+      tl.fromTo(
+        $("f02-intro-rule"),
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.6, ease: "power3.out" },
+        1.3
+      );
+      unitEls.forEach((el, i) => {
+        tl.fromTo(
+          el,
+          { y: 64, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+          1.55 + i * 0.09
+        );
+      });
+
+      // Scene 3 (2.6–3.8s): sub copy reveals in three 読点 chunks; the ambient
+      // glow blooms once behind the device (bloom-and-hold, no breathe, peak ≤ 0.45).
+      chunkEls.forEach((el, i) => {
+        tl.fromTo(
+          el,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
+          2.65 + i * 0.32
+        );
+      });
+      tl.fromTo(
+        $("f02-intro-glowOrb"),
+        { opacity: 0, scale: 0.8 },
+        { opacity: 0.3, scale: 1, duration: 0.95, ease: "power2.out" },
+        2.7
+      );
+
+      // Scene 4 (3.8–5.0s): deliberate stillness hold — no exit (non-final frame).
+
+      window.__timelines["02-intro"] = tl;
+    })();
+  </script>
+</template>

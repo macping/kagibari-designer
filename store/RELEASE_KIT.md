@@ -20,10 +20,14 @@
 
 - 图标: `assets/icon/icon_full.png`(1024) / `icon_foreground.png`(adaptive+monochrome)
   ——v2 纸底teal网格+陶土V（2026-11-01 矩阵42图标对照目检通过；源=test/icon_gen_test.dart）
-- 截图: `store/assets/shots/`（phone 1080×1920 ×6 ×3语；渲染源=store/assets/src/shots.html）
-- feature graphic: `store/assets/feature/feature_{ja,en,zh}.png`（1024×500）
+- 截图: `store/assets/phone_{lang}_{1..6}.png`（1080×1920）+ `tab7_{lang}_{1..3}.png`（1200×1920）
+  + `tab10_{lang}_{1..3}.png`（1600×2560）——渲染源=store/assets/src/shots.html（复刻+引擎实渲染图）
+- 真机截图源: `store/assets/src/{home,editor,export}_{ja,en,zh}.png`（1080×2400，样例数据=sample-backup.json，
+  与宣传视频 ui 素材共用，重截流程见 videos/kagibari-promo/REGEN.md）
+- feature graphic: `store/assets/feature_{ja,en,zh}.png`（1024×500）
 - 美术方向书: `store/assets/src/direction.md`
-- 宣传视频: **未制作**（可选项；需要时按 store-kit §4 复制上代 HyperFrames 工程）
+- 宣传视频: `videos/kagibari-promo/`（六幕29s×三语；renders/ 不入库=可再生，
+  三语 mp4 用 scripts/render_all.ps1 一键重出；Play 商店视频栏=先传 YouTube 再填链接）
 
 ## 3. 文案
 
