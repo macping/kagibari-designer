@@ -18,4 +18,8 @@
   **版本记忆 `update.dismissedVersion`**——同版任何关法后不再案内、仅更新版本再弹；
   首启引导互斥（引导起动本次不弹）；market: 打不开回落 https Play 链接
 - [x] widget 测试：`test/update_banner_test.dart` 条出现/关闭/不阻断（出条时可切设置tab）/版本比较/三菜单在位
+- [x] 评分弹窗键盘遮挡修复（11-02 工单，§6 1405e7a）：manifest 对
+  `PlayCoreDialogWrapperActivity` 以 `tools:node="merge"` 注入
+  `windowSoftInputMode="adjustResize"`（IME 不再盖住送信/キャンセル）；
+  merged_manifest 核验后重出 AAB+APK（versionCode 不动）
 - [x] 其余红线核对：首启引导可跳过✓（test/onboarding_test）／PageView滑动切换✓／截断逐语言扫描✓（10-21 三语真机走查+短名修复）／NumRangeInputFormatter：本案无自由数值输入框（目数/行列=步进器，改名框 maxLength=60 非数值）→不适用，记录在案

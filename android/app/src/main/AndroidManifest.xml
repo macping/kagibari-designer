@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <application
         android:label="@string/app_name"
         android:name="${applicationName}"
@@ -25,6 +26,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- Play 原生評価ダイアログ（in_app_review）: 既定では
+             windowSoftInputMode が無く、コメント入力時に IME が送信/キャンセル
+             ボタンを覆う（2026-11-02 用户实机発見）。merge で adjustResize を注入。 -->
+        <activity
+            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+            android:windowSoftInputMode="adjustResize"
+            tools:node="merge" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
