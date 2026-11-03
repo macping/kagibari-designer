@@ -88,6 +88,19 @@ class _PaywallContentState extends State<_PaywallContent> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Pro 視覚（領域母題の増し目V——store/iap_product.md 参照）
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.asset(
+                  'assets/icon/iap_pro.png',
+                  width: 64,
+                  height: 64,
+                  errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
             Text(
               l10n.paywallTitle,
               style: theme.textTheme.titleLarge,
