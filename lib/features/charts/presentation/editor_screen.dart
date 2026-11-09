@@ -10,6 +10,7 @@ library;
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -168,13 +169,19 @@ class _EditorScreenState extends State<EditorScreen> {
       listenable: _controller,
       builder: (context, _) => Scaffold(
         appBar: AppBar(
-          // 字号を一段落として実容量を稼ぐ（デフォルト22spだと英語題が「…」になる）
+          // 題は単行硬截しない（title-overflow-rule）: AutoSizeText で 22sp→15sp に
+          // 自動縮小して単行維持。縮み切ってなお溢れる時のみ ellipsis。
+          // 戻る＋右 4 アイコンで題の容量が極小（360dp で 80dp）——既定の左右
+          // 16dp 余白を 0 にして 112dp 確保（「無題の編み図」は 15sp で 90dp 必要）。
+          titleSpacing: 0,
           title: InkWell(
             onTap: _rename,
-            child: Text(
+            child: AutoSizeText(
               _chart.title,
+              maxLines: 1,
+              minFontSize: 15,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
           actions: [
