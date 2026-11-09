@@ -66,7 +66,8 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icon/icon_full.png"
-  adaptive_icon_background: "#FDFAF4"
+  # 渐变纸底→drawable PNG（@color は纯色设计限定——store-kit 自适应两坑 11-09）
+  adaptive_icon_background: "assets/icon/icon_bg.png"
   adaptive_icon_foreground: "assets/icon/icon_foreground.png"
   adaptive_icon_monochrome: "assets/icon/icon_foreground.png"
   remove_alpha_ios: true

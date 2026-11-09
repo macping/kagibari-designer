@@ -128,9 +128,30 @@ void main() {
         _paintMotif(canvas, center, 360, _teal);
       });
 
-      // adaptive foreground: 透過地・セーフゾーン（中央61%）内に収める
+      // adaptive foreground: 透過地。縮放は**この PNG の一箇所だけ**
+      // （store-kit「自适应图标两坑」2026-11-09: ic_launcher.xml の <inset> と
+      // 叠加すると装机图标缩水。本テスト末尾に XML 無 inset 断言あり）。
+      // 半径240 → 非透明占比 r=0.469 → 装机显示 ≈ r×1.5 = 0.703
+      // ＝ Play512（icon_full 母題 720/1024=0.703）と一致、且つ
+      // 24.7dp < 33dp セーフゾーン。
       await _savePng('assets/icon/icon_foreground.png', size, (canvas) {
-        _paintMotif(canvas, center, 290, _teal);
+        _paintMotif(canvas, center, 240, _teal);
+      });
+
+      // adaptive background: 設計は紙の微グラデ——規則上、渐变底は @color 禁止
+      // （纯色取暗端で装机变调）。launcher 裁切（中央72/108）補償のため
+      // グラデ座標を 0.165–0.835 に圧縮した drawable PNG を出す。
+      await _savePng('assets/icon/icon_bg.png', size, (canvas) {
+        final rect = Offset.zero & size;
+        canvas.drawRect(
+          rect,
+          Paint()
+            ..shader = const LinearGradient(
+              begin: Alignment(-0.67, -0.67), // 0.165–0.835 圧縮（-1..1 系）
+              end: Alignment(0.67, 0.67),
+              colors: [_paper, _paperEdge],
+            ).createShader(rect),
+        );
       });
 
       // IAP Pro 視覚（paywall 頂部・促販素材）: launcher v1 の「深 teal 底 ×
@@ -169,7 +190,20 @@ void main() {
         File('assets/icon/icon_foreground.png').lengthSync(),
         greaterThan(5000),
       );
+      expect(File('assets/icon/icon_bg.png').lengthSync(), greaterThan(1000));
       expect(File('assets/icon/iap_pro.png').lengthSync(), greaterThan(5000));
+
+      // 防回退: flutter_launcher_icons 再実行後は <inset> を手で剥がすこと
+      // （縮放一箇所の鉄則——store-kit 2026-11-09）。
+      final launcherXml = File(
+        'android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml',
+      ).readAsStringSync();
+      expect(
+        launcherXml.contains('<inset'),
+        isFalse,
+        reason: 'ic_launcher.xml に <inset> が残っている——前景PNGと叠加して'
+            '装机图标が缩水する。flutter_launcher_icons 実行後は inset を外す',
+      );
     });
   });
 }
