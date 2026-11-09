@@ -19,7 +19,9 @@
 ## 2. 素材路径
 
 - 图标: `assets/icon/icon_full.png`(1024) / `icon_foreground.png`(adaptive+monochrome)
-  ——v2 纸底teal网格+陶土V（2026-11-01 矩阵42图标对照目检通过；源=test/icon_gen_test.dart）
+  / `icon_bg.png`(渐变底drawable)——v2 纸底teal网格+陶土V（2026-11-01 矩阵42图标对照目检通过；
+  源=test/icon_gen_test.dart）；**11-10 装机并排验收 PASS**（缩水修正：XML去inset+前景r=0.469
+  对齐Play512占比0.703；防回退断言在 icon_gen_test）
 - 截图: `store/assets/phone_{lang}_{1..6}.png`（1080×1920）+ `tab7_{lang}_{1..3}.png`（1200×1920）
   + `tab10_{lang}_{1..3}.png`（1600×2560）——渲染源=store/assets/src/shots.html（复刻+引擎实渲染图）
 - 真机截图源: `store/assets/src/{home,editor,export}_{ja,en,zh}.png`（1080×2400，样例数据=sample-backup.json，
