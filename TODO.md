@@ -2,6 +2,18 @@
 
 > 状态台账（2026-11-01 由「APP构建方法」会话建立；本项目当时无在册会话，工单在此落档）
 
+## 📥 待办工单（2026-11-18 追加，与已下发的 Draggable 核查同车执行）
+
+- [ ] **隐私政策菜单补装（用户 11-18 新标配，接替 11-14「先不补」裁决；§6 d9cec29，bobari 首装范式）**：
+  设置页免責 tile 上方加 ListTile（privacy_tip_outlined + l10n.privacyPolicy +
+  trailing open_in_new 18），onTap=`launchUrl(kPrivacyPolicyUrl, externalApplication)`
+  开公开 Pages 隐私页、失败静默；**URL 不明示 UI**（app_info 常量）；
+  ARB 三语补 privacyPolicy 键；断言升级=设置页 textContaining('http') 与 ('＠')
+  双 findsNothing。manifest VIEW/https 已有无需动。
+- [ ] 与 Draggable affinity 修复（工单已在会话队列）一并实装、测试、重出双包——
+  **versionCode/versionName 冻结不动**（发布时点等用户指示）；构建走 v3 排队锁；
+  完成后两项合并向「APP构建方法」复命。
+
 ## 设置页三菜单 + 升级提示工单（2026-11-01 用户新规，未进封测件必装——见 mobile-day1 skill §6）
 
 - [x] 设置页「応援・連絡」分组（2026-11-01 实装；**同日改订为二菜单**）：
