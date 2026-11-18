@@ -15,6 +15,7 @@
   "restoreSubtitle": "機種変更・再インストールした場合",
   "restoreStarted": "復元処理を開始しました",
   "restoreFailed": "復元できませんでした。ストア接続をご確認ください",
+  "privacyPolicy": "プライバシーポリシー",
   "disclaimerTitle": "免責事項",
   "disclaimerBody": "本アプリの記号はJISの表記慣行を参考にした自社制作の図案です。実際の編み上がりは毛糸やゲージにより異なります。",
   "languageTitle": "言語",

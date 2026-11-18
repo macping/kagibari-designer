@@ -12,3 +12,8 @@ const kPlayStoreUrl =
 
 /// Android の「更新」ボタン遷移先（Play アプリ直開き）。
 const kPlayMarketUri = 'market://details?id=$kAndroidPackageId';
+
+/// プライバシーポリシー（托管页。設定から外部ブラウザで開く——
+/// URL 自体は UI に表示しない: 宛先非表示口径はフィードバック邮箱と同じ）。
+const kPrivacyPolicyUrl =
+    'https://macping.github.io/kagibari-designer/privacy.html';

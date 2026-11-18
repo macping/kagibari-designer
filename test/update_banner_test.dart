@@ -127,5 +127,15 @@ void main() {
     expect(find.text('評価する'), findsNothing);
     // 宛先アドレスは UI に出さない（mailto 内のみ）
     expect(find.textContaining('@'), findsNothing);
+
+    // プライバシーポリシー入口（11-18 用户裁决）: タップ可能・URL 非表示
+    await tester.dragUntilVisible(
+      find.text('プライバシーポリシー'),
+      find.byType(ListView),
+      const Offset(0, -200),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('プライバシーポリシー'), findsOneWidget);
+    expect(find.textContaining('http'), findsNothing);
   });
 }

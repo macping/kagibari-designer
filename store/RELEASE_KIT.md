@@ -11,7 +11,8 @@
 
 ## 1. 包与产物
 
-- applicationId: `com.jajambo.kagibari`／versionName 1.0.0 / versionCode 1
+- applicationId: `com.jajambo.kagibari`／versionName 1.0.0 / **versionCode 3**（2026-11-18 用户指定；
+  vc2=fix-kagibari 会话顶栏截断修复版已占用；changelogs/3.txt 三语已备）
 - AAB: `build\app\outputs\bundle\release\app-release.aab`（upload keystore 签名，
   指纹 4586702E…；keystore=D:\JAJAMBO\keys\kagibari-upload-keystore.jks）
 - 测试: analyze 0 / 25+ 件全绿；模拟器全量验收 2026-10-21 通过（crash区零条目）

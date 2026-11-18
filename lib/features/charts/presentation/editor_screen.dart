@@ -676,6 +676,10 @@ class _SymbolTile extends StatelessWidget {
     final interactive = GestureDetector(onTap: onTap, child: tile);
     if (locked) return interactive;
     return Draggable<String>(
+      // 横スワイプはパレットのスクロールに譲る（affinity 無指定だと
+      // Draggable が全方向の手勢を奪い、リストが横に滑れず後方の記号が
+      // 見えない——2026-11-18 用户指摘）。縦ドラッグ＝キャンバスへ配置。
+      affinity: Axis.vertical,
       data: symbol.id,
       feedback: Material(
         color: Colors.transparent,

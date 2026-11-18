@@ -67,7 +67,8 @@ class _ChartListScreenState extends State<ChartListScreen>
     final chart = mode == ChartMode.round
         ? Chart.newRound(id: id, title: l10n.chartDefaultTitle)
         : Chart.newGrid(id: id, title: l10n.chartDefaultTitle);
-    await widget.repository.save(chart);
+    // 案3(2026-11-10): 作成直後は保存しない。ユーザーが実際に編集した時だけ
+    // 永続化する（未編集のまま戻ると「未命名」が増える不具合の修正）。
     await _openEditor(chart);
   }
 

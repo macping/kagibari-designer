@@ -48,6 +48,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get restoreFailed => '復元できませんでした。ストア接続をご確認ください';
 
   @override
+  String get privacyPolicy => 'プライバシーポリシー';
+
+  @override
   String get disclaimerTitle => '免責事項';
 
   @override

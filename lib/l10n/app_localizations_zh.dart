@@ -48,6 +48,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get restoreFailed => '无法恢复，请检查商店连接';
 
   @override
+  String get privacyPolicy => '隐私政策';
+
+  @override
   String get disclaimerTitle => '免责声明';
 
   @override

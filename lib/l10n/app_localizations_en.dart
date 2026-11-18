@@ -49,6 +49,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get restoreFailed => 'Could not restore. Check your store connection';
 
   @override
+  String get privacyPolicy => 'Privacy policy';
+
+  @override
   String get disclaimerTitle => 'Disclaimer';
 
   @override

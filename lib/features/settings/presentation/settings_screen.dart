@@ -149,6 +149,23 @@ class SettingsScreen extends StatelessWidget {
               onTap: () => _sendFeedback(context, l10n),
             ),
             const Divider(),
+            // プライバシーポリシー: タップで托管页を外部ブラウザ表示。
+            // URL は UI に出さない（宛先非表示口径——2026-11-18 用户裁决）。
+            ListTile(
+              leading: const Icon(Icons.privacy_tip_outlined),
+              title: Text(l10n.privacyPolicy),
+              trailing: const Icon(Icons.open_in_new, size: 18),
+              onTap: () async {
+                try {
+                  await launchUrl(
+                    Uri.parse(kPrivacyPolicyUrl),
+                    mode: LaunchMode.externalApplication,
+                  );
+                } on Exception {
+                  // ブラウザ不在は静黙
+                }
+              },
+            ),
             ListTile(
               leading: const Icon(Icons.info_outline),
               title: Text(l10n.disclaimerTitle),

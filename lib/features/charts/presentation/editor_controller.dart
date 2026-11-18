@@ -20,6 +20,9 @@ class ChartEditorController extends ChangeNotifier {
   bool eraser = false;
   Timer? _saveTimer;
   bool _disposed = false;
+  // 案3(2026-11-10): 一度でも編集された時だけ永続化する。未編集の新規図は
+  // 保存しない（未編集のまま戻ると「未命名」が増える不具合の修正）。
+  bool _dirty = false;
 
   void selectSymbol(String symbolId) {
     selectedSymbolId = symbolId;
@@ -90,6 +93,7 @@ class ChartEditorController extends ChangeNotifier {
   }
 
   void _afterEdit() {
+    _dirty = true;
     notifyListeners();
     _saveTimer?.cancel();
     _saveTimer = Timer(const Duration(milliseconds: 500), () {
@@ -97,9 +101,10 @@ class ChartEditorController extends ChangeNotifier {
     });
   }
 
-  /// 画面を離れる前の確定保存。
+  /// 画面を離れる前の確定保存。未編集（案3）なら永続化しない。
   Future<void> flush() async {
     _saveTimer?.cancel();
+    if (!_dirty) return;
     await repository.save(chart);
   }
 
