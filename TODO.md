@@ -4,15 +4,18 @@
 
 ## 📥 待办工单（2026-11-18 追加，与已下发的 Draggable 核查同车执行）
 
-- [ ] **隐私政策菜单补装（用户 11-18 新标配，接替 11-14「先不补」裁决；§6 d9cec29，bobari 首装范式）**：
-  设置页免責 tile 上方加 ListTile（privacy_tip_outlined + l10n.privacyPolicy +
-  trailing open_in_new 18），onTap=`launchUrl(kPrivacyPolicyUrl, externalApplication)`
-  开公开 Pages 隐私页、失败静默；**URL 不明示 UI**（app_info 常量）；
-  ARB 三语补 privacyPolicy 键；断言升级=设置页 textContaining('http') 与 ('＠')
-  双 findsNothing。manifest VIEW/https 已有无需动。
-- [ ] 与 Draggable affinity 修复（工单已在会话队列）一并实装、测试、重出双包——
-  **versionCode/versionName 冻结不动**（发布时点等用户指示）；构建走 v3 排队锁；
-  完成后两项合并向「APP构建方法」复命。
+- [x] **隐私政策菜单补装（用户 11-18 新标配，接替 11-14「先不补」裁决；§6 d9cec29，bobari 首装范式）**：
+  2026-11-18 实装（994b3c6）——设置页免責 tile 上方 ListTile（privacy_tip_outlined +
+  l10n.privacyPolicy + open_in_new 18），onTap=`launchUrl(kPrivacyPolicyUrl,
+  externalApplication)` 失败静默；URL 不明示 UI；常量位置=**app_links.dart**
+  （app_info.dart 的等价实现，bobari 范式对照用）；ARB 三语 privacyPolicy 键；
+  断言=设置页 textContaining('http') 与 ('@') 双 findsNothing（update_banner_test）。
+- [x] 与 Draggable affinity 修复一并实装、测试、重出双包——2026-11-18 完成：
+  `_SymbolTile` Draggable 加 `affinity: Axis.vertical`（994b3c6）；回归测试定式
+  =test/palette_scroll_test.dart（360宽 drag(-400,0) 断言末尾「中長2度」
+  findsOneWidget，摘掉 fix 实测必红 ✓，另纵拖启动 Draggable 断言）；
+  **版本=1.0.0+3**（vc 冻结被用户本会话 11-18 直接裁决 vc3 接替；
+  vc2 已被 fix-kagibari 顶栏修复包占用）；构建走 v3 排队锁；两项已合并复命。
 
 ## 设置页三菜单 + 升级提示工单（2026-11-01 用户新规，未进封测件必装——见 mobile-day1 skill §6）
 
