@@ -42,9 +42,9 @@
 
 - 商品ID: `pro_unlock`（非消耗型・写死）／价格: **¥800**（暂定，区间¥600-980）
 - 商品名: ja「Pro版（買い切り）」/ en "Pro (one-time)" / zh「Pro 版（买断制）」
-- 说明: ja「円編み段数無制限・全32記号・高解像度透かしなし書き出し」
-  / en "Unlimited rounds, all 32 symbols, high-res watermark-free export"
-  / zh「环形编织不限段数・全部32记号・高分辨率无水印导出」
+- **建品文案以 `store/iap_product.md` 为准**（三语名称+说明，说明已逐语言过
+  50〜200 字硬区间校验 11-24；Console 照它贴，勿用下行短摘要）
+- 解锁内容摘要: 円編み段数無制限・全32記号・高解像度透かしなし書き出し
 
 ## 5. 版本说明（Release notes，每语言≤500字符，追加保留历史）
 
@@ -81,7 +81,8 @@ First release of Crochet Chart Designer.
 
 - 数据收集: **无**；数据共享: **无**；数据加密传输: 不适用（无传输）；可删除: 不适用
 - 声明注意: 不含广告SDK；更新检查=Play/iTunes 只读查询（零上传）；IAP 经 Play 计费
-- 广告: 无 ／ 目标受众: 全年龄（非儿童向设计，选「全年龄但非主要面向儿童」口径）
+- 广告: 无 ／ 目标受众: **18歳以上**（2026-11-24 改按矩阵标准口径——避开儿童政策
+  附加审查；与 IARC 内容分级「全年龄」是两个问卷互不矛盾）
 - 内容分级问卷: 工具类、无暴力/色情/赌博/UGC → IARC 全年龄
 
 ## 7. 审查敏感点
@@ -92,6 +93,11 @@ First release of Crochet Chart Designer.
   标签，这是信任差异点，文案已突出
 
 ## 8. 上架 TODO（按序）
+
+> **执行底本=`docs/RELEASE_CHECKLIST.md`**（2026-11-24 生成：逐项答案、Console 坑、
+> 封测证据清单、製品版申请稿指引全在那里；本节仅序号级概览）。
+> 製品版问卷预置稿=`docs/production_access_application.md`（日英双版）。
+> Release notes 粘贴块=`store/release_notes_1.0.0.md`。
 
 1. [ ] Play Console 建 app：既定言語=日本語、名称=第0节、免费+含IAP
 2. [ ] 内容问卷（Data safety/分级/目标受众，按第6节预答）
